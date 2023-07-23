@@ -1,6 +1,6 @@
 import tkinter as tk
 from scripts.trigger_actions import (on_click_std_study_env, on_click_career_study_env, 
-                                  on_click_cm_env, on_click_kill_all,on_click_clean_desktop)
+                                  on_click_cm_env, on_click_lext_env, on_click_kill_all, on_click_clean_desktop)
 
 root = tk.Tk()
 root.title("BootMe")
@@ -11,7 +11,7 @@ title_label = tk.Label(root, text="BootMe", font=("Helvetica", 24), bg='#a9927d'
 title_label.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
 button_text = ["Standard Environment", "Recruiting Environment", "CM Environment", "LeXT Environment", "Kill All", "Clean Desktop"]
-button_commands = [on_click_std_study_env, on_click_career_study_env, on_click_cm_env, None, on_click_kill_all, on_click_clean_desktop]
+button_commands = [on_click_std_study_env, on_click_career_study_env, on_click_cm_env, on_click_lext_env, on_click_kill_all, on_click_clean_desktop]
 
 for i in range(6):
   button = tk.Button(root, text=button_text[i], command=button_commands[i], width=20, height=2, bg='#cbb294', fg='#5c5241')

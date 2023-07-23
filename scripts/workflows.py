@@ -1,7 +1,13 @@
 import os
 import shutil
+from dotenv import load_dotenv
 import webbrowser
 from scripts.spoticry import Spoticry
+
+load_dotenv()
+def open_tabs(url_list):
+  for url in url_list:
+    webbrowser.open_new_tab(url)
 
 def std_study_env():
   playlist_uri = "spotify:playlist:0b3Zb3pUyHwN5KJnEfPQXm"
@@ -16,15 +22,22 @@ def career_study_env():
   spoticry = Spoticry()
   spoticry.start_playlist(playlist_uri)
 
-  webbrowser.open_new_tab("https://ucsd.joinhandshake.com/stu/postings")
-  webbrowser.open_new_tab("https://www.linkedin.com/in/david-em-yinn/")
-  webbrowser.open_new_tab("https://www.linkedin.com/jobs/")
-  webbrowser.open_new_tab("https://leetcode.com/explore/interview/card/top-interview-questions-easy/92/array/")
+  url_list = [
+    os.getenv("CAREER_LINK_1"),
+    os.getenv("CAREER_LINK_2"),
+    os.getenv("CAREER_LINK_3"),
+    os.getenv("CAREER_LINK_4")
+  ]
 
+  open_tabs(url_list)
 
 def cm_env():
-  webbrowser.open_new_tab("https://3.basecamp.com/4294631/projects")
-  webbrowser.open_new_tab("https://www.sharemyworks.com/instructor/dashboard")
+  url_list = [
+    os.getenv("CM_LINK_1"),
+    os.getenv("CM_LINK_2"),
+  ]
+
+  open_tabs(url_list)
   os.system("open /Applications/zoom.us.app")
 
 
@@ -33,9 +46,12 @@ def lext_env():
   spoticry = Spoticry()
   spoticry.start_playlist(playlist_uri)
 
-  webbrowser.open_new_tab("https://docs.google.com/spreadsheets/d/1fqx7kht2LxG01HxyEf_YEBHcpbZT1vPw/edit#gid=553178262")
-  webbrowser.open_new_tab("https://drive.google.com/drive/u/0/folders/1s4pdrGvCEWJG_qQlL5U3mwUewcI3rLZ5")
-
+  url_list = [
+    os.getenv("LEXT_LINK_1"),
+    os.getenv("LEXT_LINK_2"),
+  ]
+  
+  open_tabs(url_list)
 
 def kill_all_apps():
   os.system("killall -9 'Google Chrome'")

@@ -1,3 +1,7 @@
 .env
 __pycache__
 .cache
+venv
+dist
+build
+main.spec
