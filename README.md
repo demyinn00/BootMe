@@ -18,15 +18,13 @@ export SPOTIPY_REDIRECT_URI= # from spotify web api
 
 # Configure these links as need be. Update the code to use links you desire.
 export CAREER_LINK_1=
-export CAREER_LINK_2=
-export CAREER_LINK_3=
-export CAREER_LINK_4=
+...
 
 export CM_LINK_1=
-export CM_LINK_2=
+...
 
 export LEXT_LINK_1=
-export LEXT_LINK_2=
+...
 ```
 
 

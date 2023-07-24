@@ -24,7 +24,8 @@ def career_study_env():
     os.getenv("CAREER_LINK_1"),
     os.getenv("CAREER_LINK_2"),
     os.getenv("CAREER_LINK_3"),
-    os.getenv("CAREER_LINK_4")
+    os.getenv("CAREER_LINK_4"),
+    os.getenv("CAREER_LINK_5")
   ]
 
   open_tabs(url_list)
