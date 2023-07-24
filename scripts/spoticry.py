@@ -24,11 +24,17 @@ class Spoticry:
                             redirect_uri=redirect_uri,
                             scope=scope,
                             cache_path=str(cache_path))
-    
-    # Only works if already logged in on machine
+
     token_info = sp_oauth.get_cached_token()
-    
-    self.sp = spotipy.Spotify(auth=token_info["access_token"])
+
+    if not token_info or sp_oauth.is_token_expired(token_info):
+      print("No valid token found. Getting new token.")
+      token_info = sp_oauth.get_access_token()
+    else:
+      print("Valid token found in cache.")
+
+    self.sp = spotipy.Spotify(auth=token_info['access_token'])
   
   def start_playlist(self, playlist_uri):
     self.sp.start_playback(context_uri=playlist_uri)
+
