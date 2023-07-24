@@ -1,10 +1,8 @@
 import os
 import shutil
-from dotenv import load_dotenv
 import webbrowser
 from scripts.spoticry import Spoticry
 
-load_dotenv()
 def open_tabs(url_list):
   for url in url_list:
     webbrowser.open_new_tab(url)

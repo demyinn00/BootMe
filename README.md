@@ -1,5 +1,11 @@
 # BootMe
-This app allows you to run 6 workflows. The work flows configured launches google tabs for specific environments and plays my personal spotify playlists. 
+This app allows me to run 6 workflows. The work flows configured have 2 main uses: 
+- Launching study/work environments
+  - Launch my most used tabs 
+  - Play appropriate Spotify playlist  
+- Orangization
+  - Clean my desktop (remove clutter)
+  - Kill all (Force quit background apps)
 
 Before using this app, create a `.env` file to store your Spotify credentials. Click here for more info on spotify web api. https://developer.spotify.com/documentation/web-api
 
@@ -25,4 +31,4 @@ export LEXT_LINK_2=
 
 
 To run app do: <br>
-`python3 main.py`
+`python3 /path/to/BootMe/main.py`

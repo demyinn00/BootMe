@@ -1,11 +1,15 @@
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
 class Spoticry:
   def __init__(self):
-    load_dotenv() 
+    base_dir = Path(__file__).resolve().parent.parent
+    env_path = base_dir/'.env'
+    load_dotenv(dotenv_path=env_path) 
+
     client_id = os.getenv('SPOTIPY_CLIENT_ID')
     client_secret = os.getenv("SPOTIPY_CLIENT_SECRET")
     redirect_uri = os.getenv("SPOTIPY_REDIRECT_URI")
@@ -13,10 +17,13 @@ class Spoticry:
     # The scope of the permissions
     scope = "user-modify-playback-state"
 
+    cache_path = base_dir / ".cache"
+
     sp_oauth = SpotifyOAuth(client_id=client_id,
                             client_secret=client_secret,
                             redirect_uri=redirect_uri,
-                            scope=scope)
+                            scope=scope,
+                            cache_path=str(cache_path))
     
     # Only works if already logged in on machine
     token_info = sp_oauth.get_cached_token()
