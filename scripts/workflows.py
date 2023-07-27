@@ -5,14 +5,16 @@ from scripts.spoticry import Spoticry
 
 def open_tabs(url_list):
   for url in url_list:
-    webbrowser.open_new_tab(url)
+    os.system(f"open -a 'Google Chrome' {url}")
+
 
 def std_study_env():
   playlist_uri = "spotify:playlist:0b3Zb3pUyHwN5KJnEfPQXm"
   spoticry = Spoticry()
   spoticry.start_playlist(playlist_uri)
 
-  webbrowser.open_new_tab("https://www.google.com")
+  url_list = ["https://www.google.com"]
+  open_tabs(url_list)
 
 
 def career_study_env():
@@ -28,6 +30,7 @@ def career_study_env():
     os.getenv("CAREER_LINK_5")
   ]
 
+  os.system("open /Applications/Notion.app")
   open_tabs(url_list)
 
 def cm_env():
@@ -49,7 +52,7 @@ def lext_env():
     os.getenv("LEXT_LINK_1"),
     os.getenv("LEXT_LINK_2"),
   ]
-  
+
   open_tabs(url_list)
 
 def kill_all_apps():
@@ -65,9 +68,9 @@ def kill_all_apps():
 
 def clean_desktop():
   desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-  to_trash_path = os.path.join(desktop_path, "to_trash")
-  to_organize_path = os.path.join(desktop_path, "to_organize")
-  ignore_list = ["CM", "LeXT", "repos", "TM", "to_trash", "to_organize"]
+  to_trash_path = os.path.join(desktop_path, "TRASH_ME")
+  to_organize_path = os.path.join(desktop_path, "ORGANIZE_ME")
+  ignore_list = ["CM", "LeXT", "repos", "TM", "TRASH_ME", "ORGANIZE_ME"]
 
   if not os.path.exists(to_trash_path):
     os.mkdir(to_trash_path)
@@ -85,3 +88,6 @@ def clean_desktop():
           shutil.move(file_path, to_trash_path)
     except Exception as e:
         print(f"Error moving {file_path}: {e}")
+
+  if not os.listdir(to_organize_path):
+    shutil.move(to_organize_path, to_trash_path)
