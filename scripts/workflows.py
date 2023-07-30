@@ -7,20 +7,29 @@ def open_tabs(url_list):
   for url in url_list:
     os.system(f"open -a 'Google Chrome' {url}")
 
-
 def std_study_env():
-  playlist_uri = "spotify:playlist:0b3Zb3pUyHwN5KJnEfPQXm"
   spoticry = Spoticry()
-  spoticry.start_playlist(playlist_uri)
 
-  url_list = ["https://www.google.com"]
+  play_type = 'album' # 'playlist
+  if play_type == 'album':
+    spoticry.start_album("18NOKLkZETa4sWwLMIm0UZ")
+  else:
+    playlist_uri = "spotify:playlist:0b3Zb3pUyHwN5KJnEfPQXm"
+    spoticry.start_playlist(playlist_uri)
+
+  url_list = ["https://chat.openai.com/"]
   open_tabs(url_list)
 
 
 def career_study_env():
-  playlist_uri = "spotify:playlist:5sXRm52jnGFLluxfgeZ1Ng"
   spoticry = Spoticry()
-  spoticry.start_playlist(playlist_uri)
+  
+  play_type = 'album' # 'playlist
+  if play_type == 'album':
+    spoticry.start_album("18NOKLkZETa4sWwLMIm0UZ")
+  else:
+    playlist_uri = "spotify:playlist:18NOKLkZETa4sWwLMIm0UZ"
+    spoticry.start_playlist(playlist_uri)
 
   url_list = [
     os.getenv("CAREER_LINK_1"),
