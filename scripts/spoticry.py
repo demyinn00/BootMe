@@ -38,3 +38,7 @@ class Spoticry:
   def start_playlist(self, playlist_uri):
     self.sp.start_playback(context_uri=playlist_uri)
 
+  def start_album(self, album_id: str):
+    results = self.sp.album_tracks(album_id)
+    track_uids = [track['uri'] for track in results['items']]
+    self.sp.start_playback(uris=track_uids)
