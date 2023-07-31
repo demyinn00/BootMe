@@ -7,8 +7,12 @@ def open_tabs(url_list):
   for url in url_list:
     os.system(f"open -a 'Google Chrome' {url}")
 
+
 def std_study_env():
   spoticry = Spoticry()
+  
+  url_list = ["https://chat.openai.com/"]
+  open_tabs(url_list)
 
   play_type = 'album' # 'playlist
   if play_type == 'album':
@@ -17,20 +21,10 @@ def std_study_env():
     playlist_uri = "spotify:playlist:0b3Zb3pUyHwN5KJnEfPQXm"
     spoticry.start_playlist(playlist_uri)
 
-  url_list = ["https://chat.openai.com/"]
-  open_tabs(url_list)
-
 
 def career_study_env():
   spoticry = Spoticry()
   
-  play_type = 'album' # 'playlist
-  if play_type == 'album':
-    spoticry.start_album("18NOKLkZETa4sWwLMIm0UZ")
-  else:
-    playlist_uri = "spotify:playlist:18NOKLkZETa4sWwLMIm0UZ"
-    spoticry.start_playlist(playlist_uri)
-
   url_list = [
     os.getenv("CAREER_LINK_1"),
     os.getenv("CAREER_LINK_2"),
@@ -42,6 +36,14 @@ def career_study_env():
   os.system("open /Applications/Notion.app")
   open_tabs(url_list)
 
+  play_type = 'album' # 'playlist
+  if play_type == 'album':
+    spoticry.start_album("18NOKLkZETa4sWwLMIm0UZ")
+  else:
+    playlist_uri = "spotify:playlist:18NOKLkZETa4sWwLMIm0UZ"
+    spoticry.start_playlist(playlist_uri)
+
+
 def cm_env():
   url_list = [
     os.getenv("CM_LINK_1"),
@@ -51,11 +53,8 @@ def cm_env():
   open_tabs(url_list)
   os.system("open /Applications/zoom.us.app")
 
-
 def lext_env():
-  playlist_uri = "spotify:playlist:7JNI9JploGRjNmXYp4nmlC"
   spoticry = Spoticry()
-  spoticry.start_playlist(playlist_uri)
 
   url_list = [
     os.getenv("LEXT_LINK_1"),
@@ -63,6 +62,10 @@ def lext_env():
   ]
 
   open_tabs(url_list)
+  
+  playlist_uri = "spotify:playlist:7JNI9JploGRjNmXYp4nmlC"
+  spoticry.start_playlist(playlist_uri)
+
 
 def kill_all_apps():
   os.system("killall -9 'Google Chrome'")
@@ -73,6 +76,7 @@ def kill_all_apps():
   os.system("killall -9 'zoom.us'")
   os.system("killall -9 'Messages'")
   os.system("killall -9 'Mail'")
+  os.system("killall -9 'Figma'")
 
 
 def clean_desktop():
