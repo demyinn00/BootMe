@@ -31,7 +31,7 @@ BootMe was developed and tested on a Mac with an M1 chip. It's likely to work be
 Unfortunately, we haven't been able to test BootMe on other platforms yet, so we can't guarantee that it will work everywhere. If you're trying to use BootMe on a different platform and running into issues, we'd appreciate hearing about your experiences.
 
 ## Known Issues
-If no song is currently playing in Spotify, the Spotify API does not recognize an active device, and BootMe's music features will not work.
+If Spotify has been inactive on for a period time, the Spotify API does not recognize an active device, and BootMe's music features will not work. 
 
 ## Future Plans
 For version 1.0, we plan to:
