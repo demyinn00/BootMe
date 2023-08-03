@@ -36,9 +36,8 @@ If Spotify has been inactive on for a period time, the Spotify API does not reco
 ## Future Plans
 For version 1.0, we plan to:
 
-Improve handling of Spotify devices.
-Add the ability to customize the list of apps and websites that are opened.
-Make the desktop cleanup feature more flexible.
+- Add the ability to customize the list of apps and websites that are opened.
+- Improve handling of Spotify devices.
 
 ## Credits
 BootMe is a project by David Mitchell Em-Yinn. It's free and open source, and you're welcome to modify it or use it for your own purposes. demyinn00.bootme@gmail.com
