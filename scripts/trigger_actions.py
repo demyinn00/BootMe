@@ -1,34 +1,32 @@
 from tkinter import messagebox
-from scripts.workflows import (std_study_env, career_study_env, cm_env, 
-                              lext_env, kill_all_apps, clean_desktop)
+import webbrowser
+import subprocess
+import json
+from scripts.workflows import (kill_all_apps, clean_desktop)
+from scripts.spoticry import Spoticry
 
-def on_click_std_study_env():
-  try:
-    std_study_env()
-    print("Study Environment Set")
-  except Exception as e:
-    messagebox.showerror("Error", str(e))
-
-def on_click_career_study_env():
+def trigger_env(index):
   try: 
-    career_study_env()
-    print("Career Environment Set")
-  except Exception as e: 
-    messagebox.showerror("Error", str(e))
+    with open("config.json") as config_json:
+      data = json.load(config_json)
+      env = data["environments"][index]
 
-def on_click_cm_env():
-  try: 
-    cm_env()
-    print("CM Environment Set")
-  except Exception as e: 
-    messagebox.showerror("Error", str(e))
+      for link in env["links"]:
+        webbrowser.open(link)
+      
+      for app in env["apps"]:
+        subprocess.call(["open", app])
+      
+      if env['spotify_type'] != "none":
+        spoticry = Spoticry()
+        if env['spotify_type'] == 'album':
+          spoticry.start_album(env['spotify_id'])
+        else:
+          spoticry.start_playlist(env['spotify_id'])
 
-def on_click_lext_env():
-  try:
-    lext_env()
-    print("LeXT Environment Set")
-  except Exception as e:
-    messagebox.showerror("Error", str(e))
+      print(f"{env['name']} Set")
+  except Exception as err:
+    messagebox.showerror("Error", str(err))
 
 def on_click_kill_all():
   try: 
