@@ -1,7 +1,11 @@
-import tkinter as tk
-from scripts.trigger_actions import (trigger_env, on_click_kill_all, on_click_clean_desktop)
-import json
 import os
+import json
+import tkinter as tk
+from windows.settings_window import SettingsWindow
+from scripts.trigger_actions import (trigger_env, on_click_kill_all, on_click_clean_desktop)
+
+def open_settings():
+  settings = SettingsWindow(root)
 
 root = tk.Tk()
 root.title("BootMe")
@@ -11,6 +15,9 @@ root.configure(bg='#a9927d')
 title_label = tk.Label(root, text="BootMe", font=("Helvetica", 24), bg='#a9927d', fg='#5c5241')
 title_label.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
+edit_button = tk.Button(root, text="Edit", command=open_settings)
+edit_button.grid(row=0, column=2, sticky="nsew")
+
 config_file_path = "config.json"
 
 if not os.path.exists(config_file_path):
@@ -19,7 +26,7 @@ if not os.path.exists(config_file_path):
       {
         "name": "Standard Enviornment",
         "links": [
-          "https://chat.openai.com/"
+          "https://google.com/"
         ],
         "apps": [],
         "spotify_type": "album",

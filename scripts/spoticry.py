@@ -11,8 +11,8 @@ class Spoticry:
     load_dotenv(dotenv_path=env_path) 
 
     client_id = os.getenv('SPOTIPY_CLIENT_ID')
-    client_secret = os.getenv("SPOTIPY_CLIENT_SECRET")
-    redirect_uri = os.getenv("SPOTIPY_REDIRECT_URI")
+    client_secret = os.getenv('SPOTIPY_CLIENT_SECRET')
+    redirect_uri = os.getenv('SPOTIPY_REDIRECT_URI')
 
     # The scope of the permissions
     scope = "user-modify-playback-state"
