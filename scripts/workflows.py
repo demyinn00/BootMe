@@ -1,23 +1,33 @@
 import os
 import shutil
+import json
+
+
+def load_config():
+  # Get absolute path of current script
+  current_script_path = os.path.abspath(__file__)
+
+  # Get the directory containing the current script
+  current_directory = os.path.dirname(current_script_path)
+
+  # Form the path to config.json
+  config_path = os.path.join(current_directory, '..', 'config.json')
+
+  with open(config_path, 'r') as file:
+    return json.load(file)
+
+CONFIG = load_config()
 
 def kill_all_apps():
-  os.system("killall -9 'Google Chrome'")
-  os.system("killall -9 'Day One'")
-  os.system("killall -9 'Notes'")
-  os.system("killall -9 'Notion'")
-  os.system("killall -9 'TextEdit'")
-  os.system("killall -9 'zoom.us'")
-  os.system("killall -9 'Messages'")
-  os.system("killall -9 'Mail'")
-  os.system("killall -9 'Figma'")
+  for app in CONFIG["workflows"]["kill_all_apps"]:
+    os.system(f"killall -9 '{app}'")
 
 
 def clean_desktop():
   desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
   to_trash_path = os.path.join(desktop_path, "TRASH_ME")
   to_organize_path = os.path.join(desktop_path, "ORGANIZE_ME")
-  ignore_list = ["CM", "LeXT", "repos", "TM", "TRASH_ME", "ORGANIZE_ME"]
+  ignore_list = CONFIG["workflows"]["clean_desktop_ignore_list"]
 
   if not os.path.exists(to_trash_path):
     os.mkdir(to_trash_path)
@@ -28,6 +38,13 @@ def clean_desktop():
     file_path = os.path.join(desktop_path, file)
     if file in ignore_list:
       continue
+
+    destination_path = to_organize_path if file.startswith("keep_") else to_trash_path
+
+    if os.path.exists(os.path.join(destination_path, file)):
+      print(f"File {file} already exists in destination {destination_path}. Skipping...")
+      continue
+
     try:
       if file.startswith("keep_"):
           shutil.move(file_path, to_organize_path)
@@ -37,4 +54,4 @@ def clean_desktop():
         print(f"Error moving {file_path}: {e}")
 
   if not os.listdir(to_organize_path):
-    shutil.move(to_organize_path, to_trash_path)
+    shutil.rmtree(to_organize_path)
