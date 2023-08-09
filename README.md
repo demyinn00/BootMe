@@ -1,13 +1,13 @@
 # BootMe
-**Version 0.9.3**
+**Version 0.10.0**
 
 BootMe is a personal productivity application that automates the setup of your work environment, allowing you to focus on what really matters. It handles opening up necessary apps, setting up your favorite music on Spotify, cleaning up your desktop, and more, all with a single command.
 
 ## Installation
 1. Clone the repository to your local machine.
-2. Install the required packages with pip install -r requirements.txt.
+2. Install the required packages with `pip install -r requirements.txt`
 3. Set up your Spotify API credentials as environment variables (see below).
-   
+
 ## Spotify API Credentials
 To use BootMe's music features, you'll need to set up your Spotify API credentials as environment variables:
 
@@ -34,11 +34,13 @@ Unfortunately, we haven't been able to test BootMe on other platforms yet, so we
 If Spotify has been inactive on for a period time, the Spotify API does not recognize an active device, and BootMe's music features will not work. 
 
 ## Future Plans
-For version 1.0, we plan to:
+For version 1.0.0, we plan to:
 
 - Add the ability to customize the list of apps and websites that are opened.
-- Improve handling of Spotify devices.
+- Allow user configure workflow settings.
 
 ## Credits
 BootMe is a project by David Mitchell Em-Yinn. It's free and open source, and you're welcome to modify it or use it for your own purposes. demyinn00.bootme@gmail.com
 
+Gear and Help icons made by Freepik from http://www.flaticon.com/
+Add icon made by dmitri13 from http://www.flaticon.com/
