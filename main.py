@@ -7,6 +7,10 @@ from scripts.trigger_actions import (trigger_env, on_click_kill_all, on_click_cl
 def open_settings():
   settings = SettingsWindow(root)
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+config_file_path = os.path.join(script_dir, "config.json")
+print(config_file_path)
+
 root = tk.Tk()
 root.title("BootMe")
 root.geometry('450x300')
@@ -17,8 +21,6 @@ title_label.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
 edit_button = tk.Button(root, text="Edit", command=open_settings)
 edit_button.grid(row=0, column=2, sticky="nsew")
-
-config_file_path = "config.json"
 
 if not os.path.exists(config_file_path):
   default_config = {
@@ -61,7 +63,8 @@ if not os.path.exists(config_file_path):
         "spotify_type": "playlist",
         "spotify_id": "spotify:playlist:5sXRm52jnGFLluxfgeZ1Ng"
       }
-    ]
+    ], 
+    
   }
   with open(config_file_path, 'w') as output_file: 
     json.dump(default_config, output_file)

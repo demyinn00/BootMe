@@ -12,6 +12,7 @@ def load_config():
 
   # Form the path to config.json
   config_path = os.path.join(current_directory, '..', 'config.json')
+  print(f"Workflows: {config_path}")
 
   with open(config_path, 'r') as file:
     return json.load(file)
