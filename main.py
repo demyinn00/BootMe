@@ -18,8 +18,8 @@ root.configure(bg='#a9927d')
 title_label = tk.Label(root, text="BootMe", font=("Helvetica", 24), bg='#a9927d', fg='#5c5241')
 title_label.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
-edit_button = tk.Button(root, text="Edit", command=open_settings)
-edit_button.grid(row=0, column=2, sticky="nsew")
+edit_button = tk.Button(root, text="Settings", command=open_settings)
+edit_button.grid(row=0, column=1, sticky="ne")
 
 if not os.path.exists(config_file_path):
   default_config = {
@@ -83,6 +83,7 @@ for i in range(6):
 
 root.grid_columnconfigure(0, weight=1)
 root.grid_columnconfigure(1, weight=1)
+root.grid_columnconfigure(2, weight=0)
 
 for i in range(4): 
   root.grid_rowconfigure(i, weight=1)
