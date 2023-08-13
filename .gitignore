@@ -7,3 +7,4 @@ build
 main.spec
 personal
 config.json
+.DS_Store

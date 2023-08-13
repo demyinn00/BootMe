@@ -7,6 +7,9 @@ from scripts.trigger_actions import (trigger_env, on_click_kill_all, on_click_cl
 def open_settings():
   settings = SettingsWindow(root)
 
+script_dir = os.path.dirname(os.path.abspath(__file__))
+config_file_path = os.path.join(script_dir, "config.json")
+
 root = tk.Tk()
 root.title("BootMe")
 root.geometry('450x300')
@@ -15,10 +18,8 @@ root.configure(bg='#a9927d')
 title_label = tk.Label(root, text="BootMe", font=("Helvetica", 24), bg='#a9927d', fg='#5c5241')
 title_label.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
-edit_button = tk.Button(root, text="Edit", command=open_settings)
-edit_button.grid(row=0, column=2, sticky="nsew")
-
-config_file_path = "config.json"
+edit_button = tk.Button(root, text="Settings", command=open_settings)
+edit_button.grid(row=0, column=1, sticky="ne")
 
 if not os.path.exists(config_file_path):
   default_config = {
@@ -61,7 +62,11 @@ if not os.path.exists(config_file_path):
         "spotify_type": "playlist",
         "spotify_id": "spotify:playlist:5sXRm52jnGFLluxfgeZ1Ng"
       }
-    ]
+    ], 
+    "workflows": {
+      "kill_all_apps": [],
+      "clean_desktop_ignore_list": ["TRASH_ME", "ORGANIZE_ME"]
+    }
   }
   with open(config_file_path, 'w') as output_file: 
     json.dump(default_config, output_file)
@@ -78,6 +83,7 @@ for i in range(6):
 
 root.grid_columnconfigure(0, weight=1)
 root.grid_columnconfigure(1, weight=1)
+root.grid_columnconfigure(2, weight=0)
 
 for i in range(4): 
   root.grid_rowconfigure(i, weight=1)

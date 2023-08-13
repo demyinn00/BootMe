@@ -32,26 +32,48 @@ class SettingsWindow(tk.Toplevel):
     for widget in self.content_frame.winfo_children():
       widget.destroy()
 
-    # Create and grid labels and input fields for the configuration settings:
-    fields = ['Name', 'Links', 'Apps', 'Play Spotify', 'Spotify Link']
+    clicked_label = event.widget.cget("text")
+
+    if clicked_label == "Button 5":
+      self.kill_all_config()
+    elif clicked_label == "Button 6":
+      self.clean_desktop_config()
+    else:
+      self.default_config()
+
+  def default_config(self):
+    fields = ["Name", "Links", "Play Spotify", "Spotify Link"]
     for i, field in enumerate(fields):
-      label = tk.Label(self.content_frame, text=field, bg='#5c5241', fg='#a9927d', padx=10, pady=5)
-      label.grid(row=i, column=0, sticky="w", padx=20, pady=10)
+      self.add_label_entry_pair(field, i)
 
-      if field in ['Links', 'Apps']:
-        entry = tk.Entry(self.content_frame)
-        entry.grid(row=i, column=1, padx=10, pady=10, sticky="ew")
-        add_button = tk.Button(self.content_frame, text="Add", command=self.add_input_field)
-        add_button.grid(row=i, column=2, padx=10, pady=10)
-      elif field == 'Play Spotify':
-        options = ['Yes', 'No']
-        dropdown = ttk.Combobox(self.content_frame, values=options, state='readonly')
-        dropdown.set(options[0])
-        dropdown.grid(row=i, column=1, padx=10, pady=10, sticky="ew")
-      else:
-        entry = tk.Entry(self.content_frame)
-        entry.grid(row=i, column=1, padx=10, pady=10, sticky="ew")
+  def kill_all_config(self):
+    fields = ["Name", "Apps"]
+    for i, field in enumerate(fields):
+      self.add_label_entry_pair(field, i)
 
+  def clean_desktop_config(self):
+    fields = ["Name", "Ignore"]
+    for i, field in enumerate(fields):
+      self.add_label_entry_pair(field, i)
+
+  def add_label_entry_pair(self, field, i):
+    label = tk.Label(self.content_frame, text=field, bg='#5c5241', fg='#a9927d', padx=10, pady=5)
+    label.grid(row=i, column=0, sticky="w", padx=20, pady=10)
+
+    if field in ['Links', 'Apps', 'Ignore']:
+      entry = tk.Entry(self.content_frame)
+      entry.grid(row=i, column=1, padx=10, pady=10, sticky="ew")
+      add_button = tk.Button(self.content_frame, text="Add", command=self.add_input_field)
+      add_button.grid(row=i, column=2, padx=10, pady=10)
+    elif field == 'Play Spotify':
+      options = ['Yes', 'No']
+      dropdown = ttk.Combobox(self.content_frame, values=options, state='readonly')
+      dropdown.set(options[0])
+      dropdown.grid(row=i, column=1, padx=10, pady=10, sticky="ew")
+    else:
+      entry = tk.Entry(self.content_frame)
+      entry.grid(row=i, column=1, padx=10, pady=10, sticky="ew")
+  
     self.content_frame.grid_columnconfigure(1, weight=1)
 
   def add_input_field(self):

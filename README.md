@@ -1,5 +1,5 @@
 # BootMe
-**Version 0.10.0**
+**Version 0.10.1**
 
 BootMe is a personal productivity application that automates the setup of your work environment, allowing you to focus on what really matters. It handles opening up necessary apps, setting up your favorite music on Spotify, cleaning up your desktop, and more, all with a single command.
 
@@ -42,5 +42,5 @@ For version 1.0.0, we plan to:
 ## Credits
 BootMe is a project by David Mitchell Em-Yinn. It's free and open source, and you're welcome to modify it or use it for your own purposes. demyinn00.bootme@gmail.com
 
-Gear and Help icons made by Freepik from http://www.flaticon.com/
+Gear and Help icons made by Freepik from http://www.flaticon.com/ <br>
 Add icon made by dmitri13 from http://www.flaticon.com/

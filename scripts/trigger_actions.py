@@ -1,13 +1,16 @@
-from tkinter import messagebox
+import os 
 import webbrowser
 import subprocess
 import json
+from tkinter import messagebox
 from scripts.workflows import (kill_all_apps, clean_desktop)
 from scripts.spoticry import Spoticry
 
 def trigger_env(index):
   try: 
-    with open("config.json") as config_json:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_file_path = os.path.join(script_dir,"..", "config.json")
+    with open(config_file_path) as config_json:
       data = json.load(config_json)
       env = data["environments"][index]
 
