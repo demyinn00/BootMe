@@ -6,13 +6,10 @@ import json
 def load_config():
   # Get absolute path of current script
   current_script_path = os.path.abspath(__file__)
-
   # Get the directory containing the current script
   current_directory = os.path.dirname(current_script_path)
-
   # Form the path to config.json
   config_path = os.path.join(current_directory, '..', 'config.json')
-  print(f"Workflows: {config_path}")
 
   with open(config_path, 'r') as file:
     return json.load(file)

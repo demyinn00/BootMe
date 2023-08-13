@@ -9,7 +9,6 @@ from scripts.spoticry import Spoticry
 def trigger_env(index):
   try: 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    current_directory = os.path.dirname(script_dir)
     config_file_path = os.path.join(script_dir,"..", "config.json")
     with open(config_file_path) as config_json:
       data = json.load(config_json)

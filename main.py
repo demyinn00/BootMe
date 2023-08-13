@@ -9,7 +9,6 @@ def open_settings():
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 config_file_path = os.path.join(script_dir, "config.json")
-print(config_file_path)
 
 root = tk.Tk()
 root.title("BootMe")
@@ -64,7 +63,10 @@ if not os.path.exists(config_file_path):
         "spotify_id": "spotify:playlist:5sXRm52jnGFLluxfgeZ1Ng"
       }
     ], 
-    
+    "workflows": {
+      "kill_all_apps": [],
+      "clean_desktop_ignore_list": ["TRASH_ME", "ORGANIZE_ME"]
+    }
   }
   with open(config_file_path, 'w') as output_file: 
     json.dump(default_config, output_file)
