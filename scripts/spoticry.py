@@ -34,24 +34,24 @@ class Spoticry:
       print("Valid token found in cache.")
 
     self.sp = spotipy.Spotify(auth=token_info["access_token"])
-    self.play_data = tuple()
-  
-  def start_spotify(self, spotify_link):
-    self.parse_link()
 
+
+  def start_spotify(self, spotify_link):
     if self.play_data[0] == "playlist":
       self.start_playlist(self.play_data(1))
     elif self.play_data[0] == "album":
       self.start_album(self.play_data(1))
 
+
   def parse_link(self, spotify_link):
     parsed_link = spotify_link.split("/")
     id = parsed_link[4].split("?")[0]
 
-    self.play_data = (parsed_link[3], id)
+    return (parsed_link[3], id)
 
 
-  def start_playlist(self, playlist_uri):
+  def start_playlist(self, playlist_id):
+    playlist_uri = f"spotify:playlist:{playlist_id}"
     self.sp.start_playback(context_uri=playlist_uri)
 
 

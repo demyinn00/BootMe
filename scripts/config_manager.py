@@ -20,6 +20,7 @@ class ConfigManager:
             "https://google.com/"
           ],
           "apps": [],
+          "spotify_url": "",
           "spotify_type": "album",
           "spotify_id": "18NOKLkZETa4sWwLMIm0UZ"
         },
@@ -31,6 +32,7 @@ class ConfigManager:
             "https://leetcode.com/explore/interview/card/top-interview-questions-easy/92/array/"
           ],
           "apps":[],
+          "spotify_url": "",
           "spotify_type": "album",
           "spotify_id": "18NOKLkZETa4sWwLMIm0UZ"
         },
@@ -40,6 +42,7 @@ class ConfigManager:
             "https://www.google.com/"
           ],
           "apps":[],
+          "spotify_url": "",
           "spotify_type": "none",
           "spotify_id": "none"
         },
@@ -49,6 +52,7 @@ class ConfigManager:
             "https://www.google.com/"
           ],
           "apps":[],
+          "spotify_url": "",
           "spotify_type": "playlist",
           "spotify_id": "spotify:playlist:5sXRm52jnGFLluxfgeZ1Ng"
         }

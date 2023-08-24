@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk, simpledialog
 from scripts.edit_dialog import EditDialog
 from scripts.config_manager import ConfigManager
+from scripts.spoticry import Spoticry
 
 class SettingsUIManager:
   def __init__(self, root, config_manager):
@@ -96,7 +97,7 @@ class SettingsUIManager:
 
     if environment["spotify_type"] != "none":
       self.spotify_play_var.set("Yes")
-      self.spotify_link_entry.insert(0, environment["spotify_id"])
+      self.spotify_link_entry.insert(0, environment["spotify_url"])
     else:
       self.spotify_play_var.set("No")
 
@@ -223,10 +224,29 @@ class SettingsUIManager:
       self.current_config["environments"][index]["links"] = links
       self.current_config["environments"][index]["apps"] = apps
       
+      '''
+      import Spoticry
+      Change if else:
+      spoticry = Spoticry()
       if spotify_play:
-        self.current_config["environments"][index]["spotify_type"] = spotify_link.split(":")[1]
-        self.current_config["environments"][index]["spotify_id"] = spotify_link.split(":")[2]
+        self.current_config["environments"][index]["spotify_url"] = spotify_link
+        play_data = spoticry.parse_link(spotify_link)
+        self.current_config["environments"][index]["spotify_type"] = play_data[0]
+        self.current_config["environments"][index]["spotify_id"] = play_data[1]
       else:
+        self.current_config["environments"][index]["spotify_url"] = "none"
+        self.current_config["environments"][index]["spotify_type"] = "none"
+        self.current_config["environments"][index]["spotify_id"] = "none"
+      '''
+
+      spoticry = Spoticry()
+      if spotify_play:
+        self.current_config["environments"][index]["spotify_url"] = spotify_link
+        play_data = spoticry.parse_link(spotify_link)
+        self.current_config["environments"][index]["spotify_type"] = play_data[0]
+        self.current_config["environments"][index]["spotify_id"] = play_data[1]
+      else:
+        self.current_config["environments"][index]["spotify_url"] = "none"
         self.current_config["environments"][index]["spotify_type"] = "none"
         self.current_config["environments"][index]["spotify_id"] = "none"
     
@@ -243,5 +263,3 @@ class SettingsUIManager:
     # Save the updated config using config_manager
     self.config_manager.write_config(self.current_config)
     tk.messagebox.showinfo("Saved", "Configuration saved successfully!")
-
-
