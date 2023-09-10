@@ -4,6 +4,8 @@ from scripts.edit_dialog import EditDialog
 from scripts.config_manager import ConfigManager
 from scripts.spoticry import Spoticry
 
+import pdb
+
 class SettingsUIManager:
   def __init__(self, root, config_manager):
     self.root = root
@@ -16,7 +18,12 @@ class SettingsUIManager:
 
   def build_ui(self):
     self.selection_var = tk.StringVar()
-    options = ["Button " + str(i+1) for i in range(6)]
+
+    envs = self.current_config["environments"]
+    options = [env["name"] for env in envs]
+    options.append("Kill All")
+    options.append("Clean Desktop")
+    # options = ["Button " + str(i+1) for i in range(6)]
     self.selection_dropdown = ttk.Combobox(self.root, textvariable=self.selection_var, values=options)
     self.selection_dropdown.bind("<<ComboboxSelected>>", self.load_fields_for_selection)
     self.selection_dropdown.pack(pady=10)
@@ -34,13 +41,16 @@ class SettingsUIManager:
 
     selection = self.selection_var.get()
 
-    if selection in ["Button 1", "Button 2", "Button 3", "Button 4"]:
-      # Compute the index based on the selection
-      index = int(selection.split(" ")[-1]) - 1
+    envs = self.current_config["environments"]
+    names = [env["name"] for env in envs]
+    names.append("Kill All")
+    names.append("Clean Desktop")
+    index = names.index(selection)
+    if index < 4:
       self.load_environment_fields(index)
-    elif selection == "Button 5":
+    elif index == 4:
       self.load_kill_all_fields()
-    elif selection == "Button 6":
+    else:
       self.load_clean_desktop_fields()
 
 
@@ -207,11 +217,19 @@ class SettingsUIManager:
 
 
   def save_config(self):
+    # pdb.set_trace()
+
     selection = self.selection_var.get()
-    
-    if selection in ["Button 1", "Button 2", "Button 3", "Button 4"]:
-      index = int(selection.split(" ")[-1]) - 1
-      
+
+    # Bug change selection to read the the list of options for the name 
+    envs = self.current_config["environments"]
+    names = [env["name"] for env in envs]
+    names.append("Kill All")
+    names.append("Clean Desktop")
+
+    index = names.index(selection)
+
+    if index < 4:
       # Read the data from UI fields
       name = self.name_entry.get()
       links = [self.links_listbox.get(i) for i in range(self.links_listbox.size())]
@@ -223,21 +241,6 @@ class SettingsUIManager:
       self.current_config["environments"][index]["name"] = name
       self.current_config["environments"][index]["links"] = links
       self.current_config["environments"][index]["apps"] = apps
-      
-      '''
-      import Spoticry
-      Change if else:
-      spoticry = Spoticry()
-      if spotify_play:
-        self.current_config["environments"][index]["spotify_url"] = spotify_link
-        play_data = spoticry.parse_link(spotify_link)
-        self.current_config["environments"][index]["spotify_type"] = play_data[0]
-        self.current_config["environments"][index]["spotify_id"] = play_data[1]
-      else:
-        self.current_config["environments"][index]["spotify_url"] = "none"
-        self.current_config["environments"][index]["spotify_type"] = "none"
-        self.current_config["environments"][index]["spotify_id"] = "none"
-      '''
 
       spoticry = Spoticry()
       if spotify_play:
@@ -250,12 +253,12 @@ class SettingsUIManager:
         self.current_config["environments"][index]["spotify_type"] = "none"
         self.current_config["environments"][index]["spotify_id"] = "none"
     
-    elif selection == "Button 5":
+    elif selection == "Kill All":
       # Read the data from UI fields
       apps_to_kill = [self.apps_kill_listbox.get(i) for i in range(self.apps_kill_listbox.size())]
       self.current_config["workflows"]["kill_all_apps"] = apps_to_kill
     
-    elif selection == "Button 6":
+    elif selection == "Clean Desktop":
       # Read the data from UI fields
       files_to_ignore = [self.files_ignore_listbox.get(i) for i in range(self.files_ignore_listbox.size())]
       self.current_config["workflows"]["clean_desktop_ignore_list"] = files_to_ignore
