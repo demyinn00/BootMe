@@ -28,7 +28,7 @@ settings_button.grid(row=0, column=1, sticky="ne")
 
 config_manager = ConfigManager(config_file_path)
 
-main_ui = MainUIManager(root, config_manager, settings_button)
+main_ui = MainUIManager(root, config_manager, open_settings)
 
 root.grid_columnconfigure(0, weight=1)
 root.grid_columnconfigure(1, weight=1)

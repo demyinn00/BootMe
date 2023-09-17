@@ -4,8 +4,6 @@ from scripts.edit_dialog import EditDialog
 from scripts.config_manager import ConfigManager
 from scripts.spoticry import Spoticry
 
-import pdb
-
 class SettingsUIManager:
   def __init__(self, root, config_manager):
     self.root = root
@@ -217,11 +215,8 @@ class SettingsUIManager:
 
 
   def save_config(self):
-    # pdb.set_trace()
-
     selection = self.selection_var.get()
 
-    # Bug change selection to read the the list of options for the name 
     envs = self.current_config["environments"]
     names = [env["name"] for env in envs]
     names.append("Kill All")
