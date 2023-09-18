@@ -1,8 +1,10 @@
 import tkinter as tk
-from tkinter import messagebox, ttk, simpledialog
-from scripts.edit_dialog import EditDialog
-from scripts.config_manager import ConfigManager
-from scripts.spoticry import Spoticry
+from tkinter import ttk, simpledialog
+from scripts.backend.config_manager import ConfigManager
+from scripts.backend.spoticry import Spoticry
+from scripts.ui.edit_dialog import EditDialog
+from scripts.backend.workflows import invalidate_config_cache
+
 
 class SettingsUIManager:
   def __init__(self, root, config_manager):
@@ -216,7 +218,7 @@ class SettingsUIManager:
       links = [self.links_listbox.get(i) for i in range(self.links_listbox.size())]
       apps = [self.apps_listbox.get(i) for i in range(self.apps_listbox.size())]
       spotify_play = bool(self.spotify_link_entry.get().strip())
-      spotify_link = self.spotify_link_entry.get() if spotify_play else None
+      spotify_link = self.spotify_link_entry.get() if spotify_play else ""
       
       # Update the current_config dictionary
       self.current_config["environments"][index]["name"] = name
@@ -224,15 +226,16 @@ class SettingsUIManager:
       self.current_config["environments"][index]["apps"] = apps
 
       spoticry = Spoticry()
+
       if spotify_play:
         self.current_config["environments"][index]["spotify_url"] = spotify_link
         play_data = spoticry.parse_link(spotify_link)
         self.current_config["environments"][index]["spotify_type"] = play_data[0]
         self.current_config["environments"][index]["spotify_id"] = play_data[1]
       else:
-        self.current_config["environments"][index]["spotify_url"] = "none"
-        self.current_config["environments"][index]["spotify_type"] = "none"
-        self.current_config["environments"][index]["spotify_id"] = "none"
+        self.current_config["environments"][index]["spotify_url"] = ""
+        self.current_config["environments"][index]["spotify_type"] = ""
+        self.current_config["environments"][index]["spotify_id"] = ""
     
     elif selection == "Kill All":
       # Read the data from UI fields
@@ -246,4 +249,5 @@ class SettingsUIManager:
       
     # Save the updated config using config_manager
     self.config_manager.write_config(self.current_config)
+    invalidate_config_cache()
     tk.messagebox.showinfo("Saved", "Configuration saved successfully!")

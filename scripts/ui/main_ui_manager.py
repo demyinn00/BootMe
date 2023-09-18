@@ -1,5 +1,7 @@
 import tkinter as tk
-from scripts.trigger_actions import (trigger_env, on_click_kill_all, on_click_clean_desktop)
+from scripts.backend.trigger_actions import (trigger_env, on_click_kill_all, on_click_clean_desktop)
+
+import pdb
 
 class MainUIManager:
   def __init__(self, root_frame, config_manager, open_settings_cb):
@@ -16,6 +18,7 @@ class MainUIManager:
     self.settings_button.grid(row=0, column=1, sticky="ne")
 
   def create_buttons(self):
+    # pdb.set_trace()
     data = self.config_manager.read_config()
     button_text = [env["name"] for env in data["environments"]] + ["Kill All", "Clean Desktop"]
     button_commands = [lambda i=i: trigger_env(i) for i in range(len(data["environments"]))] + [on_click_kill_all, on_click_clean_desktop]

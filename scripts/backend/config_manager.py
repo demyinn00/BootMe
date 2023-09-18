@@ -1,10 +1,12 @@
 import json
 import os
-import tkinter as tk
+from pathlib import Path
 
 class ConfigManager:
-  def __init__(self, config_path):
-    self.config_path = config_path
+  def __init__(self, config_filename="config.json"):
+    script_dir = Path(__file__).resolve().parent.parent.parent
+    # Append the config_filename to this path
+    self.config_path = script_dir / config_filename
     self.config_exists()
 
   def config_exists(self):

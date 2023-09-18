@@ -1,9 +1,9 @@
 import os
 import json
 import tkinter as tk
-from scripts.config_manager import ConfigManager
-from scripts.settings_ui_manager import SettingsUIManager
-from scripts.main_ui_manager import MainUIManager
+from scripts.backend.config_manager import ConfigManager
+from scripts.ui.settings_ui_manager import SettingsUIManager
+from scripts.ui.main_ui_manager import MainUIManager
 
 def open_settings():
   settings_window = tk.Toplevel(root)

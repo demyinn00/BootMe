@@ -1,22 +1,18 @@
 import os
 import shutil
-import json
-from scripts.config_manager import ConfigManager
+from scripts.backend.config_manager import ConfigManager
 
 config_cache = None
+
+def invalidate_config_cache():
+  global config_cache
+  config_cache = None
 
 def get_config():
   global config_cache
   if config_cache is None:
-    current_script_path = os.path.abspath(__file__)
-    current_directory = os.path.dirname(current_script_path)
-    config_path = os.path.join(current_directory, "..", "config.json")
-    if not os.path.exists(config_path):
-      config_manager = ConfigManager(config_path)
-      config_cache = config_manager.read_config()
-    else:
-      with open(config_path, "r") as file:
-        config_cache = json.load(file)
+    config_manager = ConfigManager()
+    config_cache = config_manager.read_config()
   return config_cache
 
 
