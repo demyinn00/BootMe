@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk, simpledialog
 from scripts.edit_dialog import EditDialog
 from scripts.config_manager import ConfigManager
+from scripts.spoticry import Spoticry
 
 class SettingsUIManager:
   def __init__(self, root, config_manager):
@@ -15,7 +16,11 @@ class SettingsUIManager:
 
   def build_ui(self):
     self.selection_var = tk.StringVar()
-    options = ["Button " + str(i+1) for i in range(6)]
+
+    envs = self.current_config["environments"]
+    options = [env["name"] for env in envs]
+    options.append("Kill All")
+    options.append("Clean Desktop")
     self.selection_dropdown = ttk.Combobox(self.root, textvariable=self.selection_var, values=options)
     self.selection_dropdown.bind("<<ComboboxSelected>>", self.load_fields_for_selection)
     self.selection_dropdown.pack(pady=10)
@@ -33,13 +38,16 @@ class SettingsUIManager:
 
     selection = self.selection_var.get()
 
-    if selection in ["Button 1", "Button 2", "Button 3", "Button 4"]:
-      # Compute the index based on the selection
-      index = int(selection.split(" ")[-1]) - 1
+    envs = self.current_config["environments"]
+    names = [env["name"] for env in envs]
+    names.append("Kill All")
+    names.append("Clean Desktop")
+    index = names.index(selection)
+    if index < 4:
       self.load_environment_fields(index)
-    elif selection == "Button 5":
+    elif index == 4:
       self.load_kill_all_fields()
-    elif selection == "Button 6":
+    else:
       self.load_clean_desktop_fields()
 
 
@@ -81,24 +89,11 @@ class SettingsUIManager:
     for app in environment["apps"]:
       self.apps_listbox.insert(tk.END, app)
 
-    # Spotify fields
-    spotify_play_label = tk.Label(self.fields_frame, text="Play Spotify:")
-    spotify_play_label.grid(row=5, column=0, sticky="e")
-    self.spotify_play_var = tk.StringVar()
-    self.spotify_play_var.set("No")
-    spotify_play_dropdown = ttk.Combobox(self.fields_frame, textvariable=self.spotify_play_var, values=["Yes", "No"])
-    spotify_play_dropdown.grid(row=5, column=1, columnspan=2)
-
     spotify_link_label = tk.Label(self.fields_frame, text="Spotify Link:")
     spotify_link_label.grid(row=6, column=0, sticky="e")
     self.spotify_link_entry = tk.Entry(self.fields_frame)
     self.spotify_link_entry.grid(row=6, column=1, columnspan=2)
-
-    if environment["spotify_type"] != "none":
-      self.spotify_play_var.set("Yes")
-      self.spotify_link_entry.insert(0, environment["spotify_id"])
-    else:
-      self.spotify_play_var.set("No")
+    self.spotify_link_entry.insert(0, environment["spotify_url"])
 
 
   def add_link(self):
@@ -207,35 +202,44 @@ class SettingsUIManager:
 
   def save_config(self):
     selection = self.selection_var.get()
-    
-    if selection in ["Button 1", "Button 2", "Button 3", "Button 4"]:
-      index = int(selection.split(" ")[-1]) - 1
-      
+
+    envs = self.current_config["environments"]
+    names = [env["name"] for env in envs]
+    names.append("Kill All")
+    names.append("Clean Desktop")
+
+    index = names.index(selection)
+
+    if index < 4:
       # Read the data from UI fields
       name = self.name_entry.get()
       links = [self.links_listbox.get(i) for i in range(self.links_listbox.size())]
       apps = [self.apps_listbox.get(i) for i in range(self.apps_listbox.size())]
-      spotify_play = True if self.spotify_play_var.get() == "Yes" else False
+      spotify_play = bool(self.spotify_link_entry.get().strip())
       spotify_link = self.spotify_link_entry.get() if spotify_play else None
       
       # Update the current_config dictionary
       self.current_config["environments"][index]["name"] = name
       self.current_config["environments"][index]["links"] = links
       self.current_config["environments"][index]["apps"] = apps
-      
+
+      spoticry = Spoticry()
       if spotify_play:
-        self.current_config["environments"][index]["spotify_type"] = spotify_link.split(":")[1]
-        self.current_config["environments"][index]["spotify_id"] = spotify_link.split(":")[2]
+        self.current_config["environments"][index]["spotify_url"] = spotify_link
+        play_data = spoticry.parse_link(spotify_link)
+        self.current_config["environments"][index]["spotify_type"] = play_data[0]
+        self.current_config["environments"][index]["spotify_id"] = play_data[1]
       else:
+        self.current_config["environments"][index]["spotify_url"] = "none"
         self.current_config["environments"][index]["spotify_type"] = "none"
         self.current_config["environments"][index]["spotify_id"] = "none"
     
-    elif selection == "Button 5":
+    elif selection == "Kill All":
       # Read the data from UI fields
       apps_to_kill = [self.apps_kill_listbox.get(i) for i in range(self.apps_kill_listbox.size())]
       self.current_config["workflows"]["kill_all_apps"] = apps_to_kill
     
-    elif selection == "Button 6":
+    elif selection == "Clean Desktop":
       # Read the data from UI fields
       files_to_ignore = [self.files_ignore_listbox.get(i) for i in range(self.files_ignore_listbox.size())]
       self.current_config["workflows"]["clean_desktop_ignore_list"] = files_to_ignore
@@ -243,5 +247,3 @@ class SettingsUIManager:
     # Save the updated config using config_manager
     self.config_manager.write_config(self.current_config)
     tk.messagebox.showinfo("Saved", "Configuration saved successfully!")
-
-

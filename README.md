@@ -1,5 +1,5 @@
 # BootMe
-**Version 0.11.0**
+**Version 0.12**
 
 BootMe is a personal productivity application that automates the setup of your work environment, allowing you to focus on what really matters. It handles opening up necessary apps, setting up your favorite music on Spotify, cleaning up your desktop, and more, all with a single command.
 

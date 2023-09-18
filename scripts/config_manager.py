@@ -20,8 +20,9 @@ class ConfigManager:
             "https://google.com/"
           ],
           "apps": [],
-          "spotify_type": "album",
-          "spotify_id": "18NOKLkZETa4sWwLMIm0UZ"
+          "spotify_url": "",
+          "spotify_type": "",
+          "spotify_id": ""
         },
         {
           "name": "Recruiting Environment",
@@ -30,32 +31,38 @@ class ConfigManager:
             "https://www.linkedin.com/jobs/",
             "https://leetcode.com/explore/interview/card/top-interview-questions-easy/92/array/"
           ],
-          "apps":[],
-          "spotify_type": "album",
-          "spotify_id": "18NOKLkZETa4sWwLMIm0UZ"
+          "apps": [],
+          "spotify_url": "",
+          "spotify_type": "",
+          "spotify_id": ""
         },
         {
           "name": "Extra Environment 1",
           "links": [
             "https://www.google.com/"
           ],
-          "apps":[],
-          "spotify_type": "none",
-          "spotify_id": "none"
+          "apps": [],
+          "spotify_url": "",
+          "spotify_type": "",
+          "spotify_id": ""
         },
         {
           "name": "Extra Environment 2",
           "links": [
             "https://www.google.com/"
           ],
-          "apps":[],
-          "spotify_type": "playlist",
-          "spotify_id": "spotify:playlist:5sXRm52jnGFLluxfgeZ1Ng"
+          "apps": [],
+          "spotify_url": "",
+          "spotify_type": "",
+          "spotify_id": ""
         }
-      ], 
+      ],
       "workflows": {
         "kill_all_apps": [],
-        "clean_desktop_ignore_list": ["TRASH_ME", "ORGANIZE_ME"]
+        "clean_desktop_ignore_list": [
+          "TRASH_ME",
+          "ORGANIZE_ME"
+        ]
       }
     }
     self.write_config(default_config)
