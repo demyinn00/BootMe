@@ -21,7 +21,6 @@ class SettingsUIManager:
     options = [env["name"] for env in envs]
     options.append("Kill All")
     options.append("Clean Desktop")
-    # options = ["Button " + str(i+1) for i in range(6)]
     self.selection_dropdown = ttk.Combobox(self.root, textvariable=self.selection_var, values=options)
     self.selection_dropdown.bind("<<ComboboxSelected>>", self.load_fields_for_selection)
     self.selection_dropdown.pack(pady=10)
@@ -90,24 +89,11 @@ class SettingsUIManager:
     for app in environment["apps"]:
       self.apps_listbox.insert(tk.END, app)
 
-    # Spotify fields
-    spotify_play_label = tk.Label(self.fields_frame, text="Play Spotify:")
-    spotify_play_label.grid(row=5, column=0, sticky="e")
-    self.spotify_play_var = tk.StringVar()
-    self.spotify_play_var.set("No")
-    spotify_play_dropdown = ttk.Combobox(self.fields_frame, textvariable=self.spotify_play_var, values=["Yes", "No"])
-    spotify_play_dropdown.grid(row=5, column=1, columnspan=2)
-
     spotify_link_label = tk.Label(self.fields_frame, text="Spotify Link:")
     spotify_link_label.grid(row=6, column=0, sticky="e")
     self.spotify_link_entry = tk.Entry(self.fields_frame)
     self.spotify_link_entry.grid(row=6, column=1, columnspan=2)
-
-    if environment["spotify_type"] != "none":
-      self.spotify_play_var.set("Yes")
-      self.spotify_link_entry.insert(0, environment["spotify_url"])
-    else:
-      self.spotify_play_var.set("No")
+    self.spotify_link_entry.insert(0, environment["spotify_url"])
 
 
   def add_link(self):
@@ -229,7 +215,7 @@ class SettingsUIManager:
       name = self.name_entry.get()
       links = [self.links_listbox.get(i) for i in range(self.links_listbox.size())]
       apps = [self.apps_listbox.get(i) for i in range(self.apps_listbox.size())]
-      spotify_play = True if self.spotify_play_var.get() == "Yes" else False
+      spotify_play = bool(self.spotify_link_entry.get().strip())
       spotify_link = self.spotify_link_entry.get() if spotify_play else None
       
       # Update the current_config dictionary
