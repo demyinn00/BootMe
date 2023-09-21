@@ -1,16 +1,16 @@
 import os
 import json
 import tkinter as tk
-from scripts.config_manager import ConfigManager
-from scripts.settings_ui_manager import SettingsUIManager
-from scripts.main_ui_manager import MainUIManager
+from scripts.backend.config_manager import ConfigManager
+from scripts.ui.settings_ui_manager import SettingsUIManager
+from scripts.ui.main_ui_manager import MainUIManager
 
 def open_settings():
-  settings_window = tk.Toplevel(root)
-  settings_manager = SettingsUIManager(settings_window, config_manager)
+    settings_window = tk.Toplevel(root)
+    settings_manager = SettingsUIManager(settings_window, config_manager)
 
-  root.wait_window(settings_window)
-  main_ui.refresh_buttons()
+    root.wait_window(settings_window)
+    main_ui.refresh_buttons()
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 config_file_path = os.path.join(script_dir, "config.json")
@@ -35,9 +35,6 @@ root.grid_columnconfigure(1, weight=1)
 root.grid_columnconfigure(2, weight=0)
 
 for i in range(4): 
-  root.grid_rowconfigure(i, weight=1)
+    root.grid_rowconfigure(i, weight=1)
 
 root.mainloop()
-
-
-
