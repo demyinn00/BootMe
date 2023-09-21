@@ -30,7 +30,7 @@ git clone https://github.com/demyinn00/BootMe.git
 ```
 2. Install the required packages with 
 ```
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
 3. Set up your Spotify API credentials as environment variables (see below).
 
