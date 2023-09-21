@@ -46,10 +46,20 @@ We've adopted a Code of Conduct that we expect project participants to adhere to
 
 Provide steps on how to set up the development environment. For example:
 
-1. Clone the repository.
-2. Install dependencies: `pip install -r requirements.txt`.
-3. Describe how to run the local version.
-4. Details on running tests or building the project.
+1. Set up Spotify keys. Read [spotify setup](/doc/Spotify_Setup.md) for details. 
+  - **Quick start**:
+    1. Create Spotify account if you do not have one. 
+    2. Go to [Spotify for Developer](https://developer.spotify.com/) and log in with your credentials
+    3. Create a new app
+    4. Go to settings and store the following in a `.env` file located in `/BootMe/.env`
+    ```
+    export SPOTIPY_CLIENT_ID=
+    export SPOTIPY_CLIENT_SECRET=
+    export SPOTIPY_REDIRECT_URI= 
+    ```
+2. Clone the repository.
+3. Install dependencies: `pip install -r requirements.txt`.
+4. Run `python3 main.py`.
 
 ## Style Guidelines
 
@@ -62,5 +72,5 @@ Provide steps on how to set up the development environment. For example:
 
 ### Code Style
 
-- For Python projects: Follow [PEP 8](https://www.python.org/dev/peps/pep-0008/).
+- This is a Python project, so follow [PEP 8](https://www.python.org/dev/peps/pep-0008/).
 

@@ -4,8 +4,6 @@ from tkinter import messagebox
 from scripts.backend.workflows import (kill_all_apps, clean_desktop, get_config)
 from scripts.backend.spoticry import Spoticry
 
-import pdb
-
 def trigger_env(index):
     try: 
         data = get_config()
@@ -17,15 +15,13 @@ def trigger_env(index):
         for app in env["apps"]:
             subprocess.call(["open", app])
         
-        # pdb.set_trace()
-
         if env["spotify_url"] != "":
             spoticry = Spoticry()
-
-        if env["spotify_type"] == "album":
-            spoticry.start_album(env["spotify_id"])
-        else:
-            spoticry.start_playlist(env["spotify_id"])
+            
+            if env["spotify_type"] == "album":
+                spoticry.start_album(env["spotify_id"])
+            else:
+                spoticry.start_playlist(env["spotify_id"])
 
         print(f"{env['name']} Set")
     except Exception as err:
