@@ -1,5 +1,4 @@
 import os
-import json
 import tkinter as tk
 from scripts.backend.config_manager import ConfigManager
 from scripts.ui.settings_ui_manager import SettingsUIManager

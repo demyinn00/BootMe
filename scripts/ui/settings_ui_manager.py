@@ -93,38 +93,6 @@ class SettingsUIManager:
         self.spotify_link_entry.grid(row=6, column=1, columnspan=2)
         self.spotify_link_entry.insert(0, environment["spotify_url"])
 
-    def add_link(self):
-        link = self.link_entry.get()
-        if link:
-            self.links_listbox.insert(tk.END, link)
-            self.link_entry.delete(0, tk.END)
-
-    def edit_link(self, event):
-        selected_index = self.links_listbox.curselection()
-        if not selected_index:
-            return
-        selected_link = self.links_listbox.get(selected_index)
-        edited_link = EditDialog(self.root, "Edit Link", selected_link).result_value
-        if edited_link and edited_link != selected_link:
-            self.links_listbox.delete(selected_index)
-            self.links_listbox.insert(selected_index, edited_link)
-
-    def add_app(self):
-        app = self.app_entry.get()
-        if app:
-            self.apps_listbox.insert(tk.END, app)
-            self.app_entry.delete(0, tk.END)
-
-    def edit_app(self, event):
-        selected_index = self.apps_listbox.curselection()
-        if not selected_index:
-            return
-        selected_app = self.apps_listbox.get(selected_index)
-        edited_app = EditDialog(self.root, "Edit App", selected_app).result_value
-        if edited_app and edited_app != selected_app:
-            self.apps_listbox.delete(selected_index)
-            self.apps_listbox.insert(selected_index, edited_app)
-
     def load_kill_all_fields(self):
         # Apps fields
         apps_label = tk.Label(self.fields_frame, text="Apps to Kill:")
@@ -139,22 +107,6 @@ class SettingsUIManager:
         
         for app in self.current_config["workflows"]["kill_all_apps"]:
             self.apps_kill_listbox.insert(tk.END, app)
-
-    def add_app_kill(self):
-        app = self.app_kill_entry.get()
-        if app:
-            self.apps_kill_listbox.insert(tk.END, app)
-            self.app_kill_entry.delete(0, tk.END)
-
-    def edit_app_kill(self, event):
-        selected_index = self.apps_kill_listbox.curselection()
-        if not selected_index:
-            return
-        selected_app = self.apps_kill_listbox.get(selected_index)
-        edited_app = EditDialog(self.root, "Edit App to Kill", selected_app).result_value
-        if edited_app and edited_app != selected_app:
-            self.apps_kill_listbox.delete(selected_index)
-            self.apps_kill_listbox.insert(selected_index, edited_app)
 
     def load_clean_desktop_fields(self):
         # Ignore files fields
@@ -171,21 +123,81 @@ class SettingsUIManager:
         for file_or_folder in self.current_config["workflows"]["clean_desktop_ignore_list"]:
             self.files_ignore_listbox.insert(tk.END, file_or_folder)
 
+    def add_link(self):
+        link = self.link_entry.get()
+        if link:
+            self.links_listbox.insert(tk.END, link)
+            self.link_entry.delete(0, tk.END)
+
+    def add_app(self):
+        app = self.app_entry.get()
+        if app:
+            self.apps_listbox.insert(tk.END, app)
+            self.app_entry.delete(0, tk.END)
+
+    def add_app_kill(self):
+        app = self.app_kill_entry.get()
+        if app:
+            self.apps_kill_listbox.insert(tk.END, app)
+            self.app_kill_entry.delete(0, tk.END)
+
     def add_file_ignore(self):
         app = self.files_ignore_entry.get()
         if app:
             self.files_ignore_listbox.insert(tk.END, app)
             self.files_ignore_entry.delete(0, tk.END)
 
+    def edit_link(self, event):
+        selected_index = self.links_listbox.curselection()
+        if not selected_index:
+            return
+        selected_link = self.links_listbox.get(selected_index)
+        edit_dialog = EditDialog(self.root, "Edit Link", selected_link)
+
+        if edit_dialog.delete_flag:
+            self.links_listbox.delete(selected_index)
+        elif edit_dialog.result_value and edit_dialog.result_value != selected_link:
+            self.links_listbox.delete(selected_index)
+            self.links_listbox.insert(selected_index, edit_dialog.result_value)
+
+    def edit_app(self, event):
+        selected_index = self.apps_listbox.curselection()
+        if not selected_index:
+            return
+        selected_app = self.apps_listbox.get(selected_index)
+        edit_dialog = EditDialog(self.root, "Edit App", selected_app)
+
+        if edit_dialog.delete_flag:
+            self.apps_listbox.delete(selected_index)
+        elif edit_dialog.result_value and edit_dialog.result_value != selected_app:
+            self.apps_listbox.delete(selected_index)
+            self.apps_listbox.insert(selected_index, edit_dialog.result_value)
+
+    def edit_app_kill(self, event):
+        selected_index = self.apps_kill_listbox.curselection()
+        if not selected_index:
+            return
+        selected_app = self.apps_kill_listbox.get(selected_index)
+        edit_dialog = EditDialog(self.root, "Edit App to Quit", selected_app)
+        
+        if edit_dialog.delete_flag:
+            self.apps_kill_listbox.delete(selected_index)
+        elif edit_dialog.result_value and edit_dialog.result_value != selected_app:
+            self.apps_kill_listbox.delete(selected_index)
+            self.apps_kill_listbox.insert(selected_index, edit_dialog.result_value)
+
     def edit_file_ignore(self, event):
         selected_index = self.files_ignore_listbox.curselection()
         if not selected_index:
             return
         selected_app = self.files_ignore_listbox.get(selected_index)
-        edited_app = EditDialog(self.root, "Edit File to Ignore", selected_app).result_value
-        if edited_app and edited_app != selected_app:
+        edit_dialog = EditDialog(self.root, "Edit file to ignore", selected_app)
+        
+        if edit_dialog.delete_flag:
             self.files_ignore_listbox.delete(selected_index)
-            self.files_ignore_listbox.insert(selected_index, edited_app)
+        elif edit_dialog.result_value and edit_dialog.result_value != selected_app:
+            self.files_ignore_listbox.delete(selected_index)
+            self.files_ignore_listbox.insert(selected_index, edit_dialog.result_value)
 
     def save_config(self):
         selection = self.selection_var.get()
