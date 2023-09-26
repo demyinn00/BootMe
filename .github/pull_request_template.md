@@ -6,7 +6,7 @@ Fixes #(issue_number)
 
 ### Summary
 
-This pr allows the user to insert full spotify links rather than just the id. Also added the functionality to refresh the buttons after the settings window saved the configuration. I needed to refactor the default config and remove the option for `play spotify` dropdown because it was unnecessary. 
+Add your summary here.
 
 ### Type of Change
 
