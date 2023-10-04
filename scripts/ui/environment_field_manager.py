@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 from scripts.backend.config_manager import ConfigManager
 from scripts.backend.workflows import invalidate_config_cache
 from scripts.backend.spoticry import Spoticry
@@ -10,6 +11,14 @@ class EnvironmentFieldManager:
         self.config_manager = config_manager
         self.current_config = current_config
 
+    def set_app_folder_location(self):
+        folder_path = filedialog.askdirectory(title="Select App Folder")
+        if folder_path:
+            self.current_config["app_folder"] = folder_path
+            self.config_manager.write_config(self.current_config)
+            self.app_folder_entry.delete(0, tk.END)
+            self.app_folder_entry.insert(0, folder_path)
+
     def load_environment_fields(self, index):
         environment = self.current_config["environments"][index]
 
@@ -17,7 +26,7 @@ class EnvironmentFieldManager:
         self.fields_frame.grid_columnconfigure(0, weight=1)
         self.fields_frame.grid_columnconfigure(1, weight=2)
         self.fields_frame.grid_columnconfigure(2, weight=1)
-        for i in range(7):  # Assuming 7 rows for this example
+        for i in range(8):
             self.fields_frame.grid_rowconfigure(i, weight=1)
 
         # Name field
@@ -29,27 +38,36 @@ class EnvironmentFieldManager:
 
         # Links fields
         links_label = tk.Label(self.fields_frame, text="Links:")
-        links_label.grid(row=1, column=0, sticky="e", padx=5, pady=5)
+        links_label.grid(row=2, column=0, sticky="e", padx=5, pady=5)
         self.link_entry = tk.Entry(self.fields_frame)
-        self.link_entry.grid(row=1, column=1, sticky="ew", padx=5, pady=5)
+        self.link_entry.grid(row=2, column=1, sticky="ew", padx=5, pady=5)
         add_link_button = tk.Button(self.fields_frame, text="Add Link", command=self.add_link)
-        add_link_button.grid(row=1, column=2, sticky="ew", padx=5, pady=5)
+        add_link_button.grid(row=2, column=2, sticky="ew", padx=5, pady=5)
         self.links_listbox = tk.Listbox(self.fields_frame, height=4)
-        self.links_listbox.grid(row=2, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
+        self.links_listbox.grid(row=3, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
         self.links_listbox.bind("<Double-Button-1>", self.edit_link)
 
         for link in environment["links"]:
             self.links_listbox.insert(tk.END, link)
 
+        # App folder location
+        app_folder_label = tk.Label(self.fields_frame, text="App folder location:")
+        app_folder_label.grid(row=5, column=0, sticky="e", padx=5, pady=5)
+        self.app_folder_entry = tk.Entry(self.fields_frame)
+        self.app_folder_entry.grid(row=5, column=1, sticky="ew", padx=5, pady=5)
+        self.app_folder_entry.insert(0, self.current_config.get("app_folder", ""))
+        self.app_folder_button = tk.Button(self.fields_frame, text="Set App Folder", command=self.set_app_folder_location)
+        self.app_folder_button.grid(row=5, column=2, sticky="ew", padx=5, pady=5)
+
         # Apps fields
         apps_label = tk.Label(self.fields_frame, text="Apps:")
-        apps_label.grid(row=3, column=0, sticky="e", padx=5, pady=5)
+        apps_label.grid(row=7, column=0, sticky="e", padx=5, pady=5)
         self.app_entry = tk.Entry(self.fields_frame)
-        self.app_entry.grid(row=3, column=1, sticky="ew", padx=5, pady=5)
+        self.app_entry.grid(row=7, column=1, sticky="ew", padx=5, pady=5)
         add_app_button = tk.Button(self.fields_frame, text="Add App", command=self.add_app)
-        add_app_button.grid(row=3, column=2, sticky="ew", padx=5, pady=5)
+        add_app_button.grid(row=7, column=2, sticky="ew", padx=5, pady=5)
         self.apps_listbox = tk.Listbox(self.fields_frame, height=4)
-        self.apps_listbox.grid(row=4, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
+        self.apps_listbox.grid(row=8, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
         self.apps_listbox.bind("<Double-Button-1>", self.edit_app)
 
         for app in environment["apps"]:
@@ -57,9 +75,9 @@ class EnvironmentFieldManager:
 
         # Spotify Link field
         spotify_link_label = tk.Label(self.fields_frame, text="Spotify Link:")
-        spotify_link_label.grid(row=5, column=0, sticky="e", padx=5, pady=5)
+        spotify_link_label.grid(row=10, column=0, sticky="e", padx=5, pady=5)
         self.spotify_link_entry = tk.Entry(self.fields_frame)
-        self.spotify_link_entry.grid(row=5, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
+        self.spotify_link_entry.grid(row=10, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
         self.spotify_link_entry.insert(0, environment["spotify_url"])
 
     def load_kill_all_fields(self):

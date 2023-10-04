@@ -6,7 +6,7 @@ from scripts.ui.environment_field_manager import EnvironmentFieldManager
 class SettingsUIManager:
     def __init__(self, root, config_manager):
         self.root = root
-        self.root.geometry("550x450")
+        self.root.geometry("600x500")
         self.config_manager = config_manager
         self.current_config = self.config_manager.read_config()
         self.fields_frame = tk.Frame(self.root)
