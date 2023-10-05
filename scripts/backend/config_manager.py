@@ -59,7 +59,6 @@ class ConfigManager:
                     "spotify_id": ""
                 }
             ],
-            "app_folder":"",
                 "workflows": {
                     "kill_all_apps": [],
                     "clean_desktop_ignore_list": [
