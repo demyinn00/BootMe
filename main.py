@@ -4,12 +4,15 @@ from scripts.backend.config_manager import ConfigManager
 from scripts.ui.settings_ui_manager import SettingsUIManager
 from scripts.ui.main_ui_manager import MainUIManager
 
-def open_settings():
-    settings_window = tk.Toplevel(root)
-    settings_manager = SettingsUIManager(settings_window, config_manager)
+settings_window = None
 
-    root.wait_window(settings_window)
-    main_ui.refresh_buttons()
+def open_settings():
+    global settings_window
+    if settings_window is None or not tk.Toplevel.winfo_exists(settings_window):
+        settings_window = tk.Toplevel(root)
+        settings_manager = SettingsUIManager(settings_window, config_manager)
+        root.wait_window(settings_window)
+        main_ui.refresh_buttons()
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 config_file_path = os.path.join(script_dir, "config.json")
