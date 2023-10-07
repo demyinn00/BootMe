@@ -6,10 +6,11 @@ from scripts.backend.spoticry import Spoticry
 from scripts.ui.edit_dialog import EditDialog
 
 class EnvironmentFieldManager:
-    def __init__(self, fields_frame, current_config, config_manager):
+    def __init__(self, fields_frame, current_config, config_manager, save_callback=None):
         self.fields_frame = fields_frame
         self.config_manager = config_manager
         self.current_config = current_config
+        self.save_callback = save_callback
 
     def load_environment_fields(self, index):
         environment = self.current_config["environments"][index]
@@ -226,5 +227,8 @@ class EnvironmentFieldManager:
         
         # Save the updated config using config_manager
         self.config_manager.write_config(self.current_config)
+        new_name = self.name_entry.get()
+        if self.save_callback:
+            self.save_callback(new_name)
         invalidate_config_cache()
         tk.messagebox.showinfo("Saved", "Configuration saved successfully!")

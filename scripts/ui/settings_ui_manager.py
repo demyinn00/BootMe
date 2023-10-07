@@ -11,7 +11,12 @@ class SettingsUIManager:
         self.current_config = self.config_manager.read_config()
         self.fields_frame = tk.Frame(self.root)
         self.fields_frame.pack(pady=20, padx=20)
-        self.env_field_manager = EnvironmentFieldManager(self.fields_frame, self.current_config, self.config_manager)
+        self.env_field_manager = EnvironmentFieldManager(
+            self.fields_frame,
+            self.current_config,
+            self.config_manager,
+            save_callback=self.refresh_dropdown
+        )
         self.BACKGROUND_COLOR = '#a9927d'
         self.FOREGROUND_COLOR = '#5c5241'
         self.build_ui()
@@ -31,8 +36,15 @@ class SettingsUIManager:
         options.append("Clean Desktop")
 
         # Pack the selection dropdown inside the top frame
-        self.selection_dropdown = ttk.Combobox(top_frame, textvariable=self.selection_var, values=options)
-        self.selection_dropdown.bind("<<ComboboxSelected>>", self.load_fields_for_selection)
+        self.selection_dropdown = ttk.Combobox(
+            top_frame,
+            textvariable=self.selection_var, 
+            values=options
+        )
+        self.selection_dropdown.bind(
+            "<<ComboboxSelected>>",
+            self.load_fields_for_selection
+        )
         self.selection_dropdown.pack(pady=5, padx=10, anchor='center')
 
         # Configure and pack the fields_frame
@@ -40,16 +52,30 @@ class SettingsUIManager:
         self.fields_frame.pack(pady=20, padx=20, expand=True, fill=tk.BOTH)
 
         # Pack the save_button
-        self.save_button = tk.Button(self.root, text="Save Config", 
-                                    bg=self.BACKGROUND_COLOR, 
-                                    fg=self.FOREGROUND_COLOR, 
-                                    command=lambda: 
-                                        self.env_field_manager.save_config(self.selection_var.get()))
-        self.save_button.pack(pady=10, anchor='center')
+        self.save_button = tk.Button(
+            self.root, text="Save Config", 
+            bg=self.BACKGROUND_COLOR, 
+            fg=self.FOREGROUND_COLOR, 
+            command=lambda: 
+                self.env_field_manager.save_config(self.selection_var.get()
+            )
+        )
+        self.save_button.pack_forget()
 
         # Ensure the main window and its widgets resize appropriately
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
+
+    def refresh_dropdown(self, new_name=None):
+        if new_name:
+            old_name = self.selection_var.get()
+            current_values = list(self.selection_dropdown["values"])
+            index = current_values.index(old_name)
+            current_values[index] = new_name
+            self.selection_dropdown["values"] = current_values
+            self.selection_var.set(new_name)
+
+
 
     def load_fields_for_selection(self, event=None):
         for widget in self.fields_frame.winfo_children():
@@ -62,6 +88,7 @@ class SettingsUIManager:
         names.append("Kill All")
         names.append("Clean Desktop")
         index = names.index(selection)
+        self.save_button.pack(pady=10, anchor="center")
         if index < 4:
             self.env_field_manager.load_environment_fields(index)
         elif index == 4:

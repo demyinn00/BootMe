@@ -29,9 +29,9 @@ class ConfigManager:
                 {
                     "name": "Recruiting Environment",
                     "links": [
-                        "https://www.indeed.com/jobs?l=Los+Angeles%2C+CA&mna=&=&aceid=&gclid=Cj0KCQjwoK2mBhDzARIsADGbjerBCq7yKXkuBzkVAoQAdrNS2UeV0rYpsdxzsaTcjoQ0GrQGUKzVgm4aAk3dEALw_wcB&gclsrc=aw.ds&from=mobRdr&utm_source=%2Fm%2F&utm_medium=redir&utm_campaign=dt",
+                        "https://www.indeed.com/",
                         "https://www.linkedin.com/jobs/",
-                        "https://leetcode.com/explore/interview/card/top-interview-questions-easy/92/array/"
+                        "https://leetcode.com/"
                     ],
                     "apps": [],
                     "spotify_url": "",
@@ -69,12 +69,16 @@ class ConfigManager:
         }
         self.write_config(default_config)
 
+    def get_all_names(self):
+        config_data = self.read_config()
+        return [env["name"] for env in config_data.get("environments", [])]
+
     def read_config(self):
         if not os.path.exists(self.config_path):
             return {}
         with open(self.config_path, "r") as f:
             return json.load(f)
-        
+
     def write_config(self, data):
         with open(self.config_path, "w") as f:
             json.dump(data, f, indent=4)
