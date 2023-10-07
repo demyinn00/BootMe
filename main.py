@@ -22,7 +22,10 @@ root.title("BootMe")
 root.geometry("450x300")
 root.configure(bg="#a9927d")
 
-title_label = tk.Label(root, text="BootMe", font=("Helvetica", 24), bg="#a9927d", fg="#5c5241")
+title_label = tk.Label(
+    root, text="BootMe", font=("Helvetica", 24),
+    bg="#a9927d", fg="#5c5241"
+)
 title_label.grid(row=0, column=0, columnspan=2, sticky="nsew")
 
 settings_button = tk.Button(root, text="Settings", command=open_settings)

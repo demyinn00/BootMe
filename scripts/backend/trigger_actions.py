@@ -1,7 +1,9 @@
 import webbrowser
 import subprocess
 from tkinter import messagebox
-from scripts.backend.workflows import (kill_all_apps, clean_desktop, get_config)
+from scripts.backend.workflows import (
+    kill_all_apps, clean_desktop, get_config
+)
 from scripts.backend.spoticry import Spoticry
 
 def trigger_env(index):
