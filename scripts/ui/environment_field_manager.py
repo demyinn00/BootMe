@@ -127,10 +127,13 @@ class EnvironmentFieldManager:
             applications_path = os.path.expanduser("~")
         app_path = filedialog.askopenfilename(title="Select App", initialdir=applications_path)
         
-        if app_path:
+        if app_path and app_path not in self.apps_listbox.get(0, tk.END):
             self.apps_listbox.insert(tk.END, app_path)
 
     def sanitize_path(self, path, is_app):
+        if not path:
+            return ""
+        
         item = path.split("/")[-1]
 
         if is_app:
@@ -140,7 +143,7 @@ class EnvironmentFieldManager:
 
     def add_app_kill(self):
         app = self.app_kill_entry.get()
-        if app:
+        if app and app not in self.apps_kill_listbox.get(0, tk.END):
             self.apps_kill_listbox.insert(tk.END, app)
             self.app_kill_entry.delete(0, tk.END)
 
@@ -157,8 +160,10 @@ class EnvironmentFieldManager:
             title="Select File to Ignore",
             initialdir=desktop_path
         )
-        if file_path:
-            file = self.sanitize_path(file_path, False)
+
+        file = self.sanitize_path(file_path, False)
+
+        if file_path and file not in self.files_ignore_listbox.get(0, tk.END):
             self.files_ignore_listbox.insert(tk.END, file)
 
     def select_folder(self):
@@ -167,8 +172,10 @@ class EnvironmentFieldManager:
             title="Select Folder to Ignore",
             initialdir=desktop_path
         )
-        if folder_path:
-            folder = self.sanitize_path(folder_path, False)
+
+        folder = self.sanitize_path(folder_path, False)
+
+        if folder_path and folder not in self.files_ignore_listbox.get(0, tk.END):
             self.files_ignore_listbox.insert(tk.END, folder)
 
     def edit_link(self, event):
