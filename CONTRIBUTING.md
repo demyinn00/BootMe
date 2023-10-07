@@ -64,11 +64,12 @@ Provide steps on how to set up the development environment. For example:
 ## Style Guidelines
 
 ### Git Commit Messages
-
-- Use the present tense ("Add feature" not "Added feature").
+- Follow the Conventional Commits format: `type<scope>: description`.
+  - Type: feat, fix, chore, docs, style, refactor, perf, test.
+  - Scope (optional): Part of the codebase, e.g. ui, backend, settings, etc.
+  - Description: Concise explanation of the change.
 - Limit the first line to 72 characters or less.
 - Reference issues and pull requests liberally after the first line.
-- Start with a verb (e.g., "Add", "Fix", "Refactor").
 
 ### Code Style
 
