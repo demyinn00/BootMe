@@ -1,3 +1,5 @@
+import os
+import platform
 import tkinter as tk
 from tkinter import filedialog
 from scripts.backend.config_manager import ConfigManager
@@ -95,16 +97,18 @@ class EnvironmentFieldManager:
         # Ignore files fields
         ignore_files_label = tk.Label(self.fields_frame, text="Files to Ignore:")
         ignore_files_label.grid(row=0, column=0, sticky="e", padx=5, pady=5)
-        self.files_ignore_entry = tk.Entry(self.fields_frame)
-        self.files_ignore_entry.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
-        add_file_ignore_button = tk.Button(self.fields_frame, text="Add File/Folder", command=self.add_file_ignore)
-        add_file_ignore_button.grid(row=0, column=2, sticky="ew", padx=5, pady=5)
+
+        # Create the files_ignore_listbox widget before placing it
         self.files_ignore_listbox = tk.Listbox(self.fields_frame, height=4)
-        self.files_ignore_listbox.grid(row=1, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
+        self.files_ignore_listbox.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
         self.files_ignore_listbox.bind("<Double-Button-1>", self.edit_file_ignore)
+
+        add_file_folder_button = tk.Button(self.fields_frame, text="Add File/Folder", command=self.select_file_or_folder)
+        add_file_folder_button.grid(row=0, column=2, sticky="ew", padx=5, pady=5)
 
         for file_or_folder in self.current_config["workflows"]["clean_desktop_ignore_list"]:
             self.files_ignore_listbox.insert(tk.END, file_or_folder)
+
 
     def add_link(self):
         link = self.link_entry.get()
@@ -113,22 +117,66 @@ class EnvironmentFieldManager:
             self.link_entry.delete(0, tk.END)
 
     def add_app(self):
-        app_path = filedialog.askopenfilename(title="Select App", initialdir="/Applications")
+        if platform.system() == "Darwin":  # macOS
+            applications_path = "/Applications"
+        elif platform.system() == "Windows":
+            # Program Files or Program Files (x86)
+            applications_path = "C:\\Program Files"
+        else:
+            # For Linux or other OS, default or handle differently
+            applications_path = os.path.expanduser("~")
+        app_path = filedialog.askopenfilename(title="Select App", initialdir=applications_path)
         
-        if app_path:
+        if app_path and app_path not in self.apps_listbox.get(0, tk.END):
             self.apps_listbox.insert(tk.END, app_path)
+
+    def sanitize_path(self, path, is_app):
+        if not path:
+            return ""
+        
+        item = path.split("/")[-1]
+
+        if is_app:
+            item = item.replace(".app", "")
+
+        return item
 
     def add_app_kill(self):
         app = self.app_kill_entry.get()
-        if app:
+        if app and app not in self.apps_kill_listbox.get(0, tk.END):
             self.apps_kill_listbox.insert(tk.END, app)
             self.app_kill_entry.delete(0, tk.END)
 
-    def add_file_ignore(self):
-        app = self.files_ignore_entry.get()
-        if app:
-            self.files_ignore_listbox.insert(tk.END, app)
-            self.files_ignore_entry.delete(0, tk.END)
+    def select_file_or_folder(self):
+        menu = tk.Menu(self.fields_frame, tearoff=0)
+        menu.add_command(label="Select File", command=self.select_file)
+        menu.add_command(label="Select Folder", command=self.select_folder)
+        
+        menu.post(self.fields_frame.winfo_pointerx(), self.fields_frame.winfo_pointery())
+
+    def select_file(self):
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+        file_path = filedialog.askopenfilename(
+            title="Select File to Ignore",
+            initialdir=desktop_path
+        )
+
+        file = self.sanitize_path(file_path, False)
+
+        if file_path and file not in self.files_ignore_listbox.get(0, tk.END):
+            self.files_ignore_listbox.insert(tk.END, file)
+
+    def select_folder(self):
+        desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
+        folder_path = filedialog.askdirectory(
+            title="Select Folder to Ignore",
+            initialdir=desktop_path
+        )
+
+        folder = self.sanitize_path(folder_path, False)
+
+        if folder_path and folder not in self.files_ignore_listbox.get(0, tk.END):
+            self.files_ignore_listbox.insert(tk.END, folder)
 
     def edit_link(self, event):
         selected_index = self.links_listbox.curselection()
@@ -227,8 +275,8 @@ class EnvironmentFieldManager:
         
         # Save the updated config using config_manager
         self.config_manager.write_config(self.current_config)
-        new_name = self.name_entry.get()
-        if self.save_callback:
+        if index < 4 and self.save_callback:
+            new_name = self.name_entry.get()
             self.save_callback(new_name)
         invalidate_config_cache()
         tk.messagebox.showinfo("Saved", "Configuration saved successfully!")
