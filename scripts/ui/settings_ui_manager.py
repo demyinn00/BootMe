@@ -75,8 +75,6 @@ class SettingsUIManager:
             self.selection_dropdown["values"] = current_values
             self.selection_var.set(new_name)
 
-
-
     def load_fields_for_selection(self, event=None):
         for widget in self.fields_frame.winfo_children():
             widget.destroy()

@@ -34,7 +34,6 @@ class MainUIManager:
         ]
         button_commands.extend([on_click_kill_all, on_click_clean_desktop])
 
-
         for i in range(6):
             button = tk.Button(
                 self.root_frame,
