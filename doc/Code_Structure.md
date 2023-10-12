@@ -1,6 +1,6 @@
 # BootMe Project Documentation
 
-_Version: 2023-09-18_
+_Version: 2023-10-12_
 
 ## Table of Contents
 
@@ -26,10 +26,8 @@ BootMe is a desktop application built to aid users in booting up their personal 
 ---
 
 ## Directory Structure
-
 ```
-BootMe
-|
+BootME
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
 ├── LICENSE
@@ -50,11 +48,10 @@ BootMe
     │   └── workflows.py
     └── ui
         ├── edit_dialog.py
+        ├── environment_field_manager.py
         ├── main_ui_manager.py
         └── settings_ui_manager.py
 ```
-
-
 
 ---
 
@@ -103,3 +100,4 @@ This module contains various workflow actions and utilities, including the logic
 ## Configuration
 
 The configuration for the application is stored in a file named `config.json`. This file contains details about the various environments, links associated with each environment, and other settings.
+

@@ -75,16 +75,19 @@ class EnvironmentFieldManager:
         # Apps fields
         apps_label = tk.Label(self.fields_frame, text="Apps to Kill:")
         apps_label.grid(row=0, column=0, sticky="e", padx=5, pady=5)
-        self.app_kill_entry = tk.Entry(self.fields_frame)
-        self.app_kill_entry.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
+        
+        # Move the listbox up to row 0, column 1
+        self.apps_kill_listbox = tk.Listbox(self.fields_frame, height=4)
+        self.apps_kill_listbox.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
+        self.apps_kill_listbox.bind("<Double-Button-1>", self.edit_app_kill)
+
+        # Move the "Add App" button up to row 0, column 2
         add_app_kill_button = tk.Button(self.fields_frame, text="Add App", command=self.add_app_kill)
         add_app_kill_button.grid(row=0, column=2, sticky="ew", padx=5, pady=5)
-        self.apps_kill_listbox = tk.Listbox(self.fields_frame, height=4)
-        self.apps_kill_listbox.grid(row=1, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
-        self.apps_kill_listbox.bind("<Double-Button-1>", self.edit_app_kill)
 
         for app in self.current_config["workflows"]["kill_all_apps"]:
             self.apps_kill_listbox.insert(tk.END, app)
+
 
     def load_clean_desktop_fields(self):
         # Configure grid columns and rows to expand with the window
@@ -108,7 +111,6 @@ class EnvironmentFieldManager:
 
         for file_or_folder in self.current_config["workflows"]["clean_desktop_ignore_list"]:
             self.files_ignore_listbox.insert(tk.END, file_or_folder)
-
 
     def add_link(self):
         link = self.link_entry.get()
@@ -142,10 +144,20 @@ class EnvironmentFieldManager:
         return item
 
     def add_app_kill(self):
-        app = self.app_kill_entry.get()
-        if app and app not in self.apps_kill_listbox.get(0, tk.END):
-            self.apps_kill_listbox.insert(tk.END, app)
-            self.app_kill_entry.delete(0, tk.END)
+        if platform.system() == "Darwin":
+            applications_path = "/Applications"
+        elif platform.system() == "Windows":
+            applications_path = "C:\\Program Files"
+        else:
+            applications_path = os.path.expanduser("~")
+        
+        app_path = filedialog.askopenfilename(title="Select App to Kill", initialdir=applications_path)
+        
+        app_name = self.sanitize_path(app_path, True)
+        
+        if app_name and app_name not in self.apps_kill_listbox.get(0, tk.END):
+            self.apps_kill_listbox.insert(tk.END, app_name)
+
 
     def select_file_or_folder(self):
         menu = tk.Menu(self.fields_frame, tearoff=0)
