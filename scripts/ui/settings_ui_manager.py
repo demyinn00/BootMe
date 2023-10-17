@@ -17,8 +17,8 @@ class SettingsUIManager:
             self.config_manager,
             save_callback=self.refresh_dropdown
         )
-        self.BACKGROUND_COLOR = '#a9927d'
-        self.FOREGROUND_COLOR = '#5c5241'
+        self.BACKGROUND_COLOR = "#a9927d"
+        self.FOREGROUND_COLOR = "#5c5241"
         self.build_ui()
 
     def build_ui(self):

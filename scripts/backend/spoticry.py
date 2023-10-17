@@ -55,3 +55,16 @@ class Spoticry:
         results = self.sp.album_tracks(album_id)
         track_uids = [track["uri"] for track in results["items"]]
         self.sp.start_playback(uris=track_uids)
+
+    def get_name(self, spotify_link):
+        link_type, id = self.parse_link(spotify_link)
+        
+        if link_type == "playlist":
+            playlist_info = self.sp.playlist(playlist_id=id)
+            return playlist_info["name"]
+        elif link_type == "album":
+            album_info = self.sp.album(album_id=id)
+            return album_info["name"]
+        else:
+            return None
+

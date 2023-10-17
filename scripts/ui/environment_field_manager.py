@@ -64,6 +64,23 @@ class EnvironmentFieldManager:
         self.spotify_link_entry.grid(row=7, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
         self.spotify_link_entry.insert(0, environment["spotify_url"])
 
+        # Spotify Display Name field
+        spotify_display_name_label = tk.Label(
+            self.fields_frame, text="Spotify Display Name:"
+        )
+
+        spotify_display_name_label.grid(row=8, column=0, sticky="e", padx=5, pady=5)
+        self.spotify_display_name_entry = tk.Entry(self.fields_frame)
+        self.spotify_display_name_entry.grid(
+            row=8, column=1, 
+            columnspan=2, sticky="ew", 
+            padx=5, pady=5
+        )
+        
+        # Load the Spotify display name from the configuration
+        spotify_display_name = environment.get("spotify_display_name", "")
+        self.spotify_display_name_entry.insert(0, spotify_display_name)
+
     def load_kill_all_fields(self):
         # Configure grid columns and rows to expand with the window
         self.fields_frame.grid_columnconfigure(0, weight=1)
@@ -82,7 +99,12 @@ class EnvironmentFieldManager:
         self.apps_kill_listbox.bind("<Double-Button-1>", self.edit_app_kill)
 
         # Move the "Add App" button up to row 0, column 2
-        add_app_kill_button = tk.Button(self.fields_frame, text="Add App", command=self.add_app_kill)
+        add_app_kill_button = tk.Button(
+            self.fields_frame,
+            text="Add App",
+            command=self.add_app_kill
+        )
+
         add_app_kill_button.grid(row=0, column=2, sticky="ew", padx=5, pady=5)
 
         for app in self.current_config["workflows"]["kill_all_apps"]:
@@ -106,7 +128,11 @@ class EnvironmentFieldManager:
         self.files_ignore_listbox.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
         self.files_ignore_listbox.bind("<Double-Button-1>", self.edit_file_ignore)
 
-        add_file_folder_button = tk.Button(self.fields_frame, text="Add File/Folder", command=self.select_file_or_folder)
+        add_file_folder_button = tk.Button(
+            self.fields_frame, text="Add File/Folder",
+            command=self.select_file_or_folder
+        )
+        
         add_file_folder_button.grid(row=0, column=2, sticky="ew", padx=5, pady=5)
 
         for file_or_folder in self.current_config["workflows"]["clean_desktop_ignore_list"]:
@@ -127,7 +153,9 @@ class EnvironmentFieldManager:
         else:
             # For Linux or other OS, default or handle differently
             applications_path = os.path.expanduser("~")
-        app_path = filedialog.askopenfilename(title="Select App", initialdir=applications_path)
+        app_path = filedialog.askopenfilename(
+            title="Select App", initialdir=applications_path
+        )
         
         if app_path and app_path not in self.apps_listbox.get(0, tk.END):
             self.apps_listbox.insert(tk.END, app_path)
@@ -151,7 +179,9 @@ class EnvironmentFieldManager:
         else:
             applications_path = os.path.expanduser("~")
         
-        app_path = filedialog.askopenfilename(title="Select App to Kill", initialdir=applications_path)
+        app_path = filedialog.askopenfilename(
+            title="Select App to Kill", initialdir=applications_path
+        )
         
         app_name = self.sanitize_path(app_path, True)
         
@@ -164,7 +194,10 @@ class EnvironmentFieldManager:
         menu.add_command(label="Select File", command=self.select_file)
         menu.add_command(label="Select Folder", command=self.select_folder)
         
-        menu.post(self.fields_frame.winfo_pointerx(), self.fields_frame.winfo_pointery())
+        menu.post(
+            self.fields_frame.winfo_pointerx(), 
+            self.fields_frame.winfo_pointery()
+        )
 
     def select_file(self):
         desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
@@ -257,7 +290,7 @@ class EnvironmentFieldManager:
             apps = [self.apps_listbox.get(i) for i in range(self.apps_listbox.size())]
             spotify_play = bool(self.spotify_link_entry.get().strip())
             spotify_link = self.spotify_link_entry.get() if spotify_play else ""
-            
+
             # Update the current_config dictionary
             self.current_config["environments"][index]["name"] = name
             self.current_config["environments"][index]["links"] = links
@@ -270,18 +303,22 @@ class EnvironmentFieldManager:
                 play_data = spoticry.parse_link(spotify_link)
                 self.current_config["environments"][index]["spotify_type"] = play_data[0]
                 self.current_config["environments"][index]["spotify_id"] = play_data[1]
+                
+                spotify_display_name = spoticry.get_name(spotify_link)
+                self.current_config["environments"][index]["spotify_display_name"] = spotify_display_name
+
+                self.spotify_display_name_entry.delete(0, tk.END)
+                self.spotify_display_name_entry.insert(0, spotify_display_name)
             else:
                 self.current_config["environments"][index]["spotify_url"] = ""
                 self.current_config["environments"][index]["spotify_type"] = ""
                 self.current_config["environments"][index]["spotify_id"] = ""
+                self.current_config["environments"][index]["spotify_display_name"] = ""
             
         elif selection == "Kill All":
-            # Read the data from UI fields
             apps_to_kill = [self.apps_kill_listbox.get(i) for i in range(self.apps_kill_listbox.size())]
             self.current_config["workflows"]["kill_all_apps"] = apps_to_kill
-        
         elif selection == "Clean Desktop":
-            # Read the data from UI fields
             files_to_ignore = [self.files_ignore_listbox.get(i) for i in range(self.files_ignore_listbox.size())]
             self.current_config["workflows"]["clean_desktop_ignore_list"] = files_to_ignore
         

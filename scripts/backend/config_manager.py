@@ -24,7 +24,8 @@ class ConfigManager:
                     "apps": [],
                     "spotify_url": "",
                     "spotify_type": "",
-                    "spotify_id": ""
+                    "spotify_id": "",
+                    "spotify_display_name": ""
                 },
                 {
                     "name": "Recruiting Environment",
@@ -36,7 +37,8 @@ class ConfigManager:
                     "apps": [],
                     "spotify_url": "",
                     "spotify_type": "",
-                    "spotify_id": ""
+                    "spotify_id": "",
+                    "spotify_display_name": ""
                 },
                 {
                     "name": "Extra Environment 1",
@@ -46,7 +48,8 @@ class ConfigManager:
                     "apps": [],
                     "spotify_url": "",
                     "spotify_type": "",
-                    "spotify_id": ""
+                    "spotify_id": "",
+                    "spotify_display_name": ""
                 },
                 {
                     "name": "Extra Environment 2",
@@ -56,7 +59,8 @@ class ConfigManager:
                     "apps": [],
                     "spotify_url": "",
                     "spotify_type": "",
-                    "spotify_id": ""
+                    "spotify_id": "",
+                    "spotify_display_name": ""
                 }
             ],
                 "workflows": {
@@ -72,6 +76,13 @@ class ConfigManager:
     def get_all_names(self):
         config_data = self.read_config()
         return [env["name"] for env in config_data.get("environments", [])]
+    
+    def get_display_name(self, environment_name):
+        config_data = self.read_config()
+        for env in config_data.get("environments", []):
+            if env["name"] == environment_name:
+                return env.get("display_name", "")
+        return ""
 
     def read_config(self):
         if not os.path.exists(self.config_path):
