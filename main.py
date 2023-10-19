@@ -28,7 +28,7 @@ config_file_path = os.path.join(script_dir, "config.json")
 
 root = tk.Tk()
 root.title("BootMe")
-root.geometry("500x400")
+root.geometry("450x350")
 root.configure(bg="#a9927d")
 
 config_manager = ConfigManager(config_file_path)
