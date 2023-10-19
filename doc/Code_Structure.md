@@ -9,12 +9,16 @@ _Version: 2023-10-12_
   - [Introduction](#introduction)
   - [Directory Structure](#directory-structure)
   - [Main Modules](#main-modules)
-    - [main\_ui\_manager.py](#main_ui_managerpy)
-    - [settings\_ui\_manager.py](#settings_ui_managerpy)
-    - [trigger\_actions.py](#trigger_actionspy)
+    - [main.py](#mainpy)
     - [config\_manager.py](#config_managerpy)
     - [spoticry.py](#spoticrypy)
+    - [trigger\_actions.py](#trigger_actionspy)
     - [workflows.py](#workflowspy)
+    - [edit\_dialog.py](#edit_dialogpy)
+    - [environment\_field\_manager.py](#environment_field_managerpy)
+    - [help\_ui\_manager.py](#help_ui_managerpy)
+    - [main\_ui\_manager.py](#main_ui_managerpy)
+    - [settings\_ui\_manager.py](#settings_ui_managerpy)
   - [Configuration](#configuration)
 
 ---
@@ -27,7 +31,7 @@ BootMe is a desktop application built to aid users in booting up their personal 
 
 ## Directory Structure
 ```
-BootME
+BootMe
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
 ├── LICENSE
@@ -36,6 +40,7 @@ BootME
 ├── doc
 │   ├── Code_Structure.md
 │   ├── Spotify_Setup.md
+│   ├── help.md
 │   └── images
 ├── icons
 ├── main.py
@@ -49,6 +54,7 @@ BootME
     └── ui
         ├── edit_dialog.py
         ├── environment_field_manager.py
+        ├── help_ui_manager.py
         ├── main_ui_manager.py
         └── settings_ui_manager.py
 ```
@@ -57,47 +63,48 @@ BootME
 
 ## Main Modules
 
-### main_ui_manager.py
+### main.py
 
-This module is responsible for managing and displaying the main user interface of the BootMe application.
-
-- `MainUIManager`: Class responsible for creating and managing the main UI. It displays available environments as well as utility buttons such as "Kill All" and "Clean Desktop".
-
-### settings_ui_manager.py
-
-This module manages the user interface for settings and configurations. 
-
-- `SettingsUIManager`: Class responsible for creating and displaying the settings UI. Allows users to modify and save environment configurations and other app settings.
-
-### trigger_actions.py
-
-This module is the main action handler for the application. It includes functions that are executed when certain buttons are pressed on the UI.
-
-- `trigger_env(index)`: Opens up the predefined links and apps for a specific environment.
-- `on_click_kill_all()`: Kills all the running applications.
-- `on_click_clean_desktop()`: Cleans up the desktop.
+This is the main entry point of the application. It initializes the application and sets up the necessary configurations.
 
 ### config_manager.py
 
-Handles all operations related to the configuration file.
-
-- `ConfigManager`: Class responsible for checking, reading, and writing to the `config.json` file.
+Manages the configuration settings of the application, ensuring that user preferences are saved and loaded correctly.
 
 ### spoticry.py
 
-Module for integrating with Spotify, allowing for the playback of specific albums or playlists as part of an environment.
+Handles Spotify integration, allowing the application to interact with Spotify and manage playlists.
 
-- `Spoticry`: Class with methods to interact with Spotify's API, initiate playback of albums or playlists, and more.
+### trigger_actions.py
+
+Defines the actions that can be triggered by the user, such as playing a song or adjusting volume.
 
 ### workflows.py
 
-This module contains various workflow actions and utilities, including the logic for cleaning the desktop and killing applications.
+Manages the workflows of the application, ensuring that tasks are executed in the correct order.
 
-- `get_config()`: Returns the configuration data. Utilizes caching to speed up repeated requests.
+### edit_dialog.py
+
+Provides the UI for editing configurations, allowing users to customize their experience.
+
+### environment_field_manager.py
+
+Manages the environment fields in the UI, ensuring that the correct data is displayed.
+
+### help_ui_manager.py
+
+Manages the help section of the UI, providing users with guidance on how to use the application.
+
+### main_ui_manager.py
+
+Manages the main user interface of the application, ensuring a smooth user experience.
+
+### settings_ui_manager.py
+
+Manages the settings section of the UI, allowing users to adjust their preferences.
 
 ---
 
 ## Configuration
 
-The configuration for the application is stored in a file named `config.json`. This file contains details about the various environments, links associated with each environment, and other settings.
-
+The configuration for the application is stored in a file named `config.json`. This file contains details about the various environments, links associated with each environment, and other settings. `config.json` can be thought of as the settings file.
