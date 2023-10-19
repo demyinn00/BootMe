@@ -1,5 +1,5 @@
 # BootMe
-**Version 0.17.0**
+**Version 0.18.0**
 
 BootMe is a personal productivity application that automates the setup of your work environment, allowing you to focus on what really matters. It handles opening up necessary apps, setting up your favorite music on Spotify, cleaning up your desktop, and more, all with a single command.
 
@@ -51,6 +51,7 @@ export SPOTIPY_REDIRECT_URI=
 - Run `python3 main.py` to start the app.
 - Click settings and choose the environment you want to set up from the list.
 - BootMe will take care of the rest.
+- For a detailed guide on using the app and its features, please refer to the [BootMe Help Guide](/doc/help.md).
 
 ## Code Structure
 The main logic for BootMe is contained within `/scripts`. These file uses several helper functions to set up different parts of your environment, such as your music and your desktop. The entry point of this app is in `main.py`.
